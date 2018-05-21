@@ -1,13 +1,16 @@
+
 var sidenNaveElement  = document.getElementById('side-nav');
 var mainElement = document.getElementById('main');
 var nameElement = document.getElementById('username');
 var name = "Momoland Nancy";
-const tabulation  = "Tabulation"
+const tabulation  = "Tabulation";
 const dashboard  ="Dashboard";
 const announcements = "Announcements";
 var datafeather = "data-feather";
 var eventsRef = firebase.database().ref("event");
-
+const refCandidates = "candidates";
+const refCriteria = "criteria";
+const refJudge = "judges";
 function renderTabulation(){
   ReactDOM.render(<MainTabulation />,mainElement);
   ReactDOM.render(
@@ -17,7 +20,6 @@ function renderTabulation(){
       <SideNav ficon = "circle" cname = "nav-link" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
     </div>
     ,sidenNaveElement);
-
 }
 function renderAnnouncements(){
   ReactDOM.render(<MainAnnouncement />,mainElement);
@@ -40,6 +42,7 @@ function renderDashboard(){
     </div>
     ,sidenNaveElement);
 }
+
 
 class MainTabulation extends React.Component {
 componentDidMount(){
@@ -92,19 +95,24 @@ componentDidMount(){
   );
   }
 }
-function MainAnnouncement(){
-  return(
-    <div className ="container">
-      MainAnnouncement
-    </div>
-  );
-}
+
 function MainDashboard(){
   return(
     <div className ="container">
       Dashboard
     </div>
   );
+}
+
+class MainAnnouncement extends React.Component{
+
+  render(){
+    return(
+      <div className ="container">
+        MainAnnouncement
+      </div>
+    );
+  }
 }
 
 function Nameclass(){
@@ -118,12 +126,311 @@ class SideNav extends React.Component{
   render(){
     return(
       <div>
-        <a className={this.props.cname}  onClick ={this.props.eventc}><i data-feather = {this.props.ficon}></i>{this.props.lname}</a>
+        <a className={this.props.cname}  onClick ={this.props.eventc}><i className="align-middle" data-feather = {this.props.ficon}></i>{this.props.lname}</a>
       </div>
     );
   }
 
 }
+
+class Candidates extends React.Component{
+  delCandidate(){
+      deleteCandidate(this.props.eventid,this.props.contestantid);
+      getCandidates(this.props.eventid);
+      $("#candidateconfirmdelete"+this.props.contestantid).modal('hide');
+  }
+  updateCandidate(){
+      var UpdatedContestantName = $("#contestant-name"+this.props.contestantid).val();
+      var updatedContestantDescription = $("#contestant-description"+this.props.contestantid).val()
+      console.log("update test: " +UpdatedContestantName +" "+updatedContestantDescription);
+      updateCandidate(this.props.eventid,this.props.contestantid,UpdatedContestantName,updatedContestantDescription);
+      getCandidates(this.props.eventid);
+      $("#updateContestant"+this.props.contestantid).modal('hide');
+  }
+  componentDidMount(){
+    feather.replace();
+  }
+
+  render(){
+    return(
+        <div>
+        <div href="" className="list-group-item list-group-item-action flex-column align-items-start">
+          <div className="d-flex w-100 justify-content-between">
+            <h5 className="mb-1">{this.props.candidatename}</h5>
+            {/* <small>3 days ago</small> */}
+            <div className="row">
+              <i className = "mb-1 ml-3 align-middle" data-toggle="modal" data-target={"#updateContestant"+this.props.contestantid} data-feather = "edit-3"></i>
+              <i className = "mb-1 ml-2 align-middle text-danger" data-toggle="modal" data-target={"#candidateconfirmdelete"+this.props.contestantid} data-feather = "trash-2"></i>
+
+            </div>
+
+          </div>
+          <p className="mb-1 text-info">{this.props.candidatedescription}</p>
+          {/* <small>Donec id elit non mi porta.</small> */}
+
+
+        </div>
+        {/* confirm Candidate Delete */}
+        <div className="modal fade" id={"candidateconfirmdelete"+this.props.contestantid} tabIndex="" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+              </div>
+              <div className="modal-body ">
+                <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" className="btn btn-primary" onClick = {this.delCandidate.bind(this)} >Delete</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* end Of confirm delete modal */}
+
+        {/* update Contestant modal */}
+        <div className="modal fade" id={"updateContestant"+this.props.contestantid} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalCenterTitle">Contestant</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body ">
+              <div className = "row pl-3 pr-3">
+                <div className = "col-sm-12">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">Contestant Name</span>
+                    </div>
+                    <input id = {"contestant-name"+this.props.contestantid} type="text" defaultValue={this.props.candidatename} className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                  </div>
+                </div>
+                <div className = "col-sm-12">
+                  <div className="input-group">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text">Description</span>
+                    </div>
+                    <textarea id = {"contestant-description"+this.props.contestantid} defaultValue={this.props.candidatedescription}  className="form-control" aria-label="With textarea"></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" className="btn btn-primary" onClick = {this.updateCandidate.bind(this)} >Save changes</button>
+            </div>
+          </div>
+        </div>
+        </div>
+          {/*End update Contestant modal */}
+      </div>
+    )
+  }
+}
+class Judge extends React.Component{
+  delJudge(){
+    firebase.database().ref().child(refJudge).child(this.props.judgeEventId).child(this.props.judgeId).remove();
+    $("#confimrDeleteJudge"+this.props.judgeId).modal('hide');
+    getJudge(this.props.judgeEventId);
+  }
+  updateJudge(){
+    var updatedJudgeName =$("#judge-name"+this.props.judgeId).val();
+    var updatedJudgeDescription = $("#judge-description"+this.props.judgeId).val();
+    firebase.database().ref().child(refJudge).child(this.props.judgeEventId).child(this.props.judgeId).update({
+      judgeName:updatedJudgeName,
+      judgeDescription:updatedJudgeDescription
+    });
+    getJudge(this.props.judgeEventId);
+    $("#updateJudge"+this.props.judgeId).modal('hide');
+
+
+  }
+  componentDidMount(){
+    feather.replace();
+  }
+  render(){
+    return(
+      <div>
+          <div href="" className="list-group-item list-group-item-action flex-column align-items-start">
+            <div className="d-flex w-100 justify-content-between">
+              <h5 className="mb-1">{this.props.judgeName}</h5>
+              {/* <small>3 days ago</small> */}
+              <div className="row">
+                <i className = "mb-1 ml-3 align-middle" data-toggle="modal" data-target={"#updateJudge"+this.props.judgeId} data-feather = "edit-3"></i>
+                <i className = "mb-1 ml-2 align-middle text-danger" data-toggle="modal" data-target={"#confimrDeleteJudge"+this.props.judgeId} data-feather = "trash-2"></i>
+              </div>
+
+            </div>
+            <p className="mb-1 text-info">{this.props.judgeDescription}</p>
+            {/* <small>Donec id elit non mi porta.</small> */}
+
+          </div>
+          {/* modals */}
+          {/* confirm judge delete modal */}
+          <div className="modal fade" id={"confimrDeleteJudge"+this.props.judgeId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+              </div>
+              <div className="modal-body ">
+                <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" className="btn btn-primary" onClick = {this.delJudge.bind(this)} >Delete</button>
+              </div>
+            </div>
+          </div>
+          </div>
+          {/* end confirm judge delete modal */}
+          {/* update Contestant modal */}
+          <div className="modal fade" id={"updateJudge"+this.props.judgeId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle">Contestant</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body ">
+                <div className = "row pl-3 pr-3">
+                  <div className = "col-sm-12">
+                    <div className="input-group mb-3">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Contestant Name</span>
+                      </div>
+                      <input id = {"judge-name"+this.props.judgeId} type="text" defaultValue={this.props.judgeName} className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+                  </div>
+                  <div className = "col-sm-12">
+                    <div className="input-group">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text">Description</span>
+                      </div>
+                      <textarea id = {"judge-description"+this.props.judgeId} defaultValue={this.props.judgeDescription}  className="form-control" aria-label="With textarea"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick = {this.updateJudge.bind(this)} >Save changes</button>
+              </div>
+            </div>
+          </div>
+          </div>
+            {/*End update Contestant modal */}
+      </div>
+    )
+  }
+}
+class Criteria extends React.Component{
+  componentDidMount(){
+    feather.replace();
+  }
+  delCriteria(){
+    firebase.database().ref().child(refCriteria).child(this.props.criteriaEventid).child(this.props.criteriaKey).remove();
+    getCriteria(this.props.criteriaEventid);
+    $("#confimrDeleteCriteria"+this.props.criteriaKey).modal('hide');
+  }
+  updateCriteria(){
+    var updatedCriteriaName = $("#c-name"+this.props.criteriaKey).val();
+    var updatedCriteriPercentage = $("#c-percent"+this.props.criteriaKey).val();
+    console.log("updateCriteia : "+refCriteria+this.props.criteriaEventid+this.props.criteriaKey+updatedCriteriaName+" "+updatedCriteriPercentage);
+    firebase.database().ref().child(refCriteria).child(this.props.criteriaEventid).child(this.props.criteriaKey).update({
+      criteriaName:updatedCriteriaName,
+      criteriaPercentage:updatedCriteriPercentage
+    });
+    $("#updateCriteriaModal"+this.props.criteriaKey).modal('hide');
+    getCriteria(this.props.criteriaEventid);
+  }
+  render(){
+    return(
+      <div>
+        <div href="" className="list-group-item list-group-item-action flex-column align-items-start">
+          <div className="d-flex w-100 justify-content-between ">
+            <h5 className="mb-1 align-middle">{this.props.criterianame}</h5>
+            {/* <small>3 days ago</small> */}
+
+            <div className="align-middle">
+              {this.props.criteriapercentage}%
+              <i className = "mb-1 ml-3 align-middle" data-toggle="modal" data-target={"#updateCriteriaModal"+this.props.criteriaKey} data-feather = "edit-3"></i>
+              <i className = "mb-1 ml-2 align-middle text-danger" data-toggle="modal" data-target={"#confimrDeleteCriteria"+this.props.criteriaKey} data-feather = "trash-2"></i>
+            </div>
+
+          </div>
+
+          {/* <small>Donec id elit non mi porta.</small> */}
+        </div>
+        {/* confirm judge delete modal */}
+        <div className="modal fade" id={"confimrDeleteCriteria"+this.props.criteriaKey} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+            </div>
+            <div className="modal-body ">
+              <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" className="btn btn-primary" onClick = {this.delCriteria.bind(this)} >Delete</button>
+            </div>
+          </div>
+        </div>
+        </div>
+        {/* end confirm judge delete modal */}
+        {/* update Criteria modal */}
+        <div className="modal fade" id={"updateCriteriaModal"+this.props.criteriaKey} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalCenterTitle">Add Criteria</h5>
+              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div className="modal-body ">
+              <div className = "row pl-3 pr-3">
+                <div className = "col-sm-9">
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text" id="basic-addon1">Criteria Name</span>
+                    </div>
+                    <input id = {"c-name"+this.props.criteriaKey} defaultValue ={this.props.criterianame} type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                  </div>
+                </div>
+                <div className = "col-sm-3">
+                  <div className="input-group mb-3">
+                    <input id={"c-percent"+this.props.criteriaKey} defaultValue = {this.props.criteriapercentage} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                    <div className="input-group-append">
+                      <span className="input-group-text" id="basic-addon2">%</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="button" onClick = {this.updateCriteria.bind(this)} className="btn btn-primary" >Save changes</button>
+            </div>
+          </div>
+        </div>
+        </div>
+
+          {/*End update Criteria modal */}
+      </div>
+
+    )
+  }
+}
+
 
 class Getevents extends React.Component{
 
@@ -133,14 +440,68 @@ class Getevents extends React.Component{
     getEvents();
   }
   addCriteria(){
-    var idCriteria = "c-name"+this.props.event_id;
-    var idPercent = "c-percent"+this.props.event_id;
-    var criteriaName = document.getElementById(idCriteria);
-    var criteriaPercent = document.getElementById(idPercent);
-    console.log(criteriaName.value+" "+criteriaPercent.value);
+    var eventid = this.props.event_id;
+    var criteriaName = $("#c-name"+this.props.event_id).val();
+    var criteriaPercent = $("#c-percent"+this.props.event_id).val();
+    console.log(criteriaName+" "+criteriaPercent);
+    var criteriaKey = firebase.database().ref().child(refCriteria).child(eventid).push().key;
+
+    firebase.database().ref().child(refCriteria).child(this.props.event_id).child(criteriaKey).set({
+      eventKey:eventid,
+      criteriaKey:criteriaKey,
+      criteriaName:criteriaName,
+      criteriaPercentage:criteriaPercent
+    });
+    getCriteria(eventid);
+    $("#addcriteriamodel"+this.props.event_id).modal('hide');
+    $("#c-name"+this.props.event_id).val("");
+    $("#c-percent"+this.props.event_id).val("");
+    // getCriteria(this.props.event_id);
+
+
+  }
+  addContestant(){
+    var contestantName = $("#contestant-name"+this.props.event_id).val();
+    var contestantDescription  = $("#contestant-description"+this.props.event_id).val();
+    console.log(contestantName+" "+contestantDescription);
+    var candidatekey = firebase.database().ref().child(refCandidates).child(this.props.event_id).push().key;
+
+    firebase.database().ref().child(refCandidates).child(this.props.event_id).child(candidatekey).set({
+      contestantname:contestantName,
+      contestantDescription:contestantDescription,
+      eventid:this.props.event_id,
+      contestantid:candidatekey
+    });
+    getCandidates(this.props.event_id);
+    $("#addContestantModal"+this.props.event_id).modal('hide');
+    $("#contestant-name"+this.props.event_id).val("");
+    $("#contestant-descriptions"+this.props.event_id).val("");
+
+
+  }
+  addJudge(){
+    var judgeName = $("#judge-name"+this.props.event_id).val();
+    var judgeDescription  = $("#judge-description"+this.props.event_id).val();
+    console.log(judgeName+" "+judgeDescription);
+    var judgeKey = firebase.database().ref().child(refJudge).child(this.props.event_id).push().key;
+
+    firebase.database().ref().child(refJudge).child(this.props.event_id).child(judgeKey).set({
+      judgeName:judgeName,
+      judgeDescription:judgeDescription,
+      eventid:this.props.event_id,
+      judgeId:judgeKey
+    });
+    getJudge(this.props.event_id);
+    $("#addJudgeModal"+this.props.event_id).modal('hide');
+    $("#judge-name"+this.props.event_id).val("");
+    $("#judge-description"+this.props.event_id).val("");
+
   }
   componentDidMount(){
     feather.replace();
+    getCandidates(this.props.event_id);
+    getCriteria(this.props.event_id);
+    getJudge(this.props.event_id);
   }
   updateEventName(){
     var update = $("#eventname"+this.props.event_id).val();
@@ -151,39 +512,44 @@ class Getevents extends React.Component{
     return(
       <div className="container-fluid col-sm-12 m-2 center" width="100%">
         <div className="card">
-          <div className="card-body">
-            <h5 className="card-title">{this.props.event_name} <i className = "ml-3" data-toggle="modal" data-target={"#editeventname"+this.props.event_id} data-feather = "edit-3"></i></h5>
-            {/* Edit Event title */}
-            <div className="modal fade" id={"editeventname"+this.props.event_id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div className="modal-dialog modal-dialog-centered" role="document">
-              <div className="modal-content">
-                <div className="modal-header">
-                  <h5 className="modal-title" id="exampleModalCenterTitle">Event Name</h5>
-                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div className="modal-body ">
-                  <div className = "row pl-3 pr-3">
-                    <div className = "col-sm-12">
-                      <div className="input-group mb-3">
-                        <div className="input-group-prepend">
-                          <span className="input-group-text" id="basic-addon1">Event Name</span>
-                        </div>
-                        <input id = {"eventname"+this.props.event_id} type="text" className="form-control" defaultValue = {this.props.event_name} placeholder="New name" aria-label="Username" aria-describedby="basic-addon1"/>
+          <div className="card-header text-white bg-dark mb-3">
+            <h5 className="d-flex w-100 justify-content-between mt-4">{this.props.event_name} <i className = "ml-3" data-toggle="modal" data-target={"#editeventname"+this.props.event_id} data-feather = "edit-3"></i></h5>
+            <h6 className="card-subtitle mb-2 text-muted">{this.props.event_date}</h6>
+          </div>
+          {/* Edit Event title */}
+          <div className="modal fade" id={"editeventname"+this.props.event_id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title" id="exampleModalCenterTitle">Event Name</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body ">
+                <div className = "row pl-3 pr-3">
+                  <div className = "col-sm-12">
+                    <div className="input-group mb-3">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Event Name</span>
                       </div>
+                      <input id = {"eventname"+this.props.event_id} type="text" className="form-control" defaultValue = {this.props.event_name} placeholder="New name" aria-label="Username" aria-describedby="basic-addon1"/>
                     </div>
                   </div>
                 </div>
-                <div className="modal-footer">
-                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" className="btn btn-primary" onClick={this.updateEventName.bind(this)} >Save changes</button>
-                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick={this.updateEventName.bind(this)} >Save changes</button>
               </div>
             </div>
-            </div>
-              {/* End Edit Event title modal */}
-            <h6 className="card-subtitle mb-2 text-muted">{this.props.event_date}</h6>
+          </div>
+          </div>
+            {/* End Edit Event title modal */}
+          <div className="card-body">
+            {/* card body */}
+
+
             <div className="container-fluid col-sm-12">
 
             </div>
@@ -196,7 +562,11 @@ class Getevents extends React.Component{
                 <button type="button" className="btn btn-outline-primary mb-2" data-toggle="modal" data-target={"#addContestantModal"+this.props.event_id}>
                 Add Contestant
                 </button>
-                {/* add Criteria modal */}
+                <div id ={"candidate-container"+this.props.event_id}>
+
+
+                </div>
+                {/* add Contestant modal */}
                 <div className="modal fade" id={"addContestantModal"+this.props.event_id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                 <div className="modal-dialog modal-dialog-centered modal-md" role="document">
                   <div className="modal-content">
@@ -213,7 +583,7 @@ class Getevents extends React.Component{
                             <div className="input-group-prepend">
                               <span className="input-group-text" id="basic-addon1">Contestant Name</span>
                             </div>
-                            <input id = {"c-name"+this.props.event_id} type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                            <input id = {"contestant-name"+this.props.event_id} type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
                           </div>
                         </div>
                         <div className = "col-sm-12">
@@ -221,19 +591,19 @@ class Getevents extends React.Component{
                             <div className="input-group-prepend">
                               <span className="input-group-text">Description</span>
                             </div>
-                            <textarea className="form-control" aria-label="With textarea"></textarea>
+                            <textarea id = {"contestant-description"+this.props.event_id}  className="form-control" aria-label="With textarea"></textarea>
                           </div>
                         </div>
                       </div>
                     </div>
                     <div className="modal-footer">
                       <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                      <button type="button" onClick = {this.addCriteria.bind(this)} className="btn btn-primary" >Save changes</button>
+                      <button type="button" onClick = {this.addContestant.bind(this)} className="btn btn-primary" >Save changes</button>
                     </div>
                   </div>
                 </div>
                 </div>
-                  {/*End add Criteria modal */}
+                  {/*End add Contestant modal */}
 
                 {/* End Contestant Container */}
               </div>
@@ -242,6 +612,10 @@ class Getevents extends React.Component{
                 <button type="button" className="btn btn-outline-primary mb-2" data-toggle="modal" data-target={"#addcriteriamodel"+this.props.event_id}>
                 Add Criteria
                 </button>
+                <div id ={"criteria-container"+this.props.event_id}>
+
+
+                </div>
 
                 {/* add Criteria modal */}
                 <div className="modal fade" id={"addcriteriamodel"+this.props.event_id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -284,6 +658,58 @@ class Getevents extends React.Component{
                   {/*End add Criteria modal */}
 
                 {/* End Criteria Container */}
+              </div>
+            </div>
+            <div className="row">
+              <div className="col-sm-5 m2">
+
+                <button type="button" className="btn btn-outline-primary mb-2" data-toggle="modal" data-target={"#addJudgeModal"+this.props.event_id}>
+                Add Judge
+                </button>
+                <div id ={"judge-container"+this.props.event_id}>
+                      {/* Judge Container */}
+
+                </div>
+                {/* add Judge modal */}
+                <div className="modal fade" id={"addJudgeModal"+this.props.event_id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+                  <div className="modal-content">
+                    <div className="modal-header">
+                      <h5 className="modal-title" id="exampleModalCenterTitle">Judge</h5>
+                      <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                    <div className="modal-body ">
+                      <div className = "row pl-3 pr-3">
+                        <div className = "col-sm-12">
+                          <div className="input-group mb-3">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text" id="basic-addon1">Judge Name</span>
+                            </div>
+                            <input id = {"judge-name"+this.props.event_id} type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                          </div>
+                        </div>
+                        <div className = "col-sm-12">
+                          <div className="input-group">
+                            <div className="input-group-prepend">
+                              <span className="input-group-text">Description</span>
+                            </div>
+                            <textarea id = {"judge-description"+this.props.event_id}  className="form-control" aria-label="With textarea"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div className="modal-footer">
+                      <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                      <button type="button" className="btn btn-primary" onClick = {this.addJudge.bind(this)}>Save changes</button>
+                    </div>
+                  </div>
+                </div>
+                </div>
+                  {/*End add Judge modal */}
+
+                {/* End Judge Container */}
               </div>
             </div>
             <button type="button" className="btn btn-outline-danger mr-3" data-toggle="modal" data-target={"#confirmdelete"+this.props.event_id}>
@@ -340,6 +766,72 @@ function writeEventName(){
   $("#eventname").val("");
 }
 
+function getCandidates(key){
+  var candidateContainer = document.getElementById("candidate-container"+key);
+  var candidateObjects= [];
+    firebase.database().ref(refCandidates).child(key).once('value',function(snapshot){
+      snapshot.forEach(function(childsnapshot){
+        console.log(childsnapshot.val());
+        candidateObjects.push(childsnapshot.val());
+      });
+      var candidateListItem = candidateObjects.map((canidateObj) =>
+      <Candidates key = {canidateObj.contestantid} contestantid = {canidateObj.contestantid} eventid = {canidateObj.eventid} candidatedescription = {canidateObj.contestantDescription} candidatename = {canidateObj.contestantname}/>
+    );
+    ReactDOM.render(
+      <div className="list-group list-group-flush mt-2 mb-2">
+        {candidateListItem}
+      </div>,candidateContainer
+    )
+  });
+}
+
+function deleteCandidate(eventid,constestantid){
+  console.log(eventid);
+  return  firebase.database().ref().child(refCandidates).child(eventid).child(constestantid).remove();
+}
+function updateCandidate(eventid,constestantid,contestantname,contestantDescription){
+ firebase.database().ref().child(refCandidates).child(eventid).child(constestantid).update({
+    contestantname:contestantname,
+    contestantDescription:contestantDescription
+  });
+}
+function getJudge(key){
+  var judgeContainer = document.getElementById("judge-container"+key);
+  var judgeObjects = [];
+    firebase.database().ref(refJudge).child(key).once('value',function(snapshot){
+      snapshot.forEach(function(childsnapshot){
+        console.log(childsnapshot.val());
+        judgeObjects.push(childsnapshot.val());
+      });
+      var judgeListItem = judgeObjects.map((judgeObj) =>
+      <Judge key = {judgeObj.judgeId} judgeId ={judgeObj.judgeId} judgeEventId = {judgeObj.eventid} judgeDescription = {judgeObj.judgeDescription} judgeName = {judgeObj.judgeName}/>
+    );
+    ReactDOM.render(
+      <div className="list-group list-group-flush mt-2 mb-2">
+        {judgeListItem}
+      </div>,judgeContainer
+    )
+  });
+}
+function getCriteria(key){
+  var criteriaContainer = document.getElementById("criteria-container"+key);
+  var criteriaObjects = [];
+    firebase.database().ref(refCriteria).child(key).once('value',function(snapshot){
+      snapshot.forEach(function(childsnapshot){
+        console.log(childsnapshot.val());
+        criteriaObjects.push(childsnapshot.val());
+      });
+      var criteriaListObjects = criteriaObjects.map((criteriaObjects) =>
+      <Criteria key = {criteriaObjects.criteriaKey} criteriaEventid = {criteriaObjects.eventKey} criteriaKey = {criteriaObjects.criteriaKey} criterianame = {criteriaObjects.criteriaName} criteriapercentage = {criteriaObjects.criteriaPercentage}/>
+    );
+    ReactDOM.render(
+      <div className="list-group list-group-flush mt-2 mb-2">
+        {criteriaListObjects}
+      </div>,criteriaContainer
+    )
+  });
+}
+
 function getEvents(){
 var eventString = [];
 var eventsObjects = [];
@@ -354,7 +846,7 @@ var eventscontainer = document.getElementById("eventscontainer");
    });
   eventsObjects.reverse();
    var listItem = eventsObjects.map((eventObject) =>
-     <Getevents event_id = {eventObject.key} event_name = {eventObject.eventname} event_date = {eventObject.date}/>
+     <Getevents key = {eventObject.key} event_id = {eventObject.key} event_name = {eventObject.eventname} event_date = {eventObject.date}/>
    );
    ReactDOM.render(
      <div className = "row">
@@ -363,9 +855,7 @@ var eventscontainer = document.getElementById("eventscontainer");
  });
 
 }
-function getCriteria(){
 
-}
 function deleteEvent(event_id){
   console.log(event_id);
   return  firebase.database().ref("events/"+event_id).remove();
