@@ -11,6 +11,8 @@ var eventsRef = firebase.database().ref("event");
 const refCandidates = "candidates";
 const refCriteria = "criteria";
 const refJudge = "judges";
+const refAnnouncements = "announcements";
+
 function renderTabulation(){
   ReactDOM.render(<MainTabulation />,mainElement);
   ReactDOM.render(
@@ -21,8 +23,9 @@ function renderTabulation(){
     </div>
     ,sidenNaveElement);
 }
+
 function renderAnnouncements(){
-  ReactDOM.render(<MainAnnouncement />,mainElement);
+  ReactDOM.render(<MainAnnouncement/>,mainElement);
   ReactDOM.render(
     <div>
       <SideNav ficon = "grid" cname = "nav-link" lname = {dashboard} eventc = {(e) => renderDashboard()} />
@@ -30,86 +33,26 @@ function renderAnnouncements(){
       <SideNav ficon = "circle" cname = "nav-link custom-active" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
     </div>
     ,sidenNaveElement);
-
 }
+
 function renderDashboard(){
   ReactDOM.render(<MainDashboard />,mainElement);
   ReactDOM.render(
     <div>
-      <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}  />
-      <SideNav ficon = "grid" cname = "nav-link " lname = {Tabulation} eventc = {(e) => renderTabulation()} />
+      <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}   />
+      <SideNav ficon = "grid" cname = "nav-link " lname = {tabulation} eventc = {(e) => renderTabulation()} />
       <SideNav ficon = "circle" cname = "nav-link " lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
     </div>
     ,sidenNaveElement);
 }
 
 
-class MainTabulation extends React.Component {
-componentDidMount(){
-  getEvents();
-}
 
-  render(){
-  return(
-    <div className ="container pt-5">
-      <div className = "col-sm-12">
-        <button type="button" className="btn btn-primary ml-2" data-toggle="modal" data-target="#exampleModalCenter">
-        Add Event
-        </button>
-        <div  id="eventscontainer">
-
-        </div>
-      </div>
-
-      <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div className="modal-dialog modal-dialog-centered" role="document">
-        <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title" id="exampleModalCenterTitle">Add Event</h5>
-            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-          <div className="modal-body ">
-
-            <div className = "row pl-3 pr-3">
-              <div className = "col-sm-12">
-                <div className="input-group mb-3">
-                  <div className="input-group-prepend">
-                    <span className="input-group-text" id="basic-addon1">Event Name</span>
-                  </div>
-                  <input id = "eventname" type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="modal-footer">
-            <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-            <button type="button" className="btn btn-primary" onClick={(e) => writeEventName()} >Save changes</button>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-
-  );
-  }
-}
-
-function MainDashboard(){
-  return(
-    <div className ="container">
-      Dashboard
-    </div>
-  );
-}
-
-class MainAnnouncement extends React.Component{
-
+class MainDashboard extends React.Component{
   render(){
     return(
       <div className ="container">
-        MainAnnouncement
+        Dashboard
       </div>
     );
   }
@@ -121,7 +64,6 @@ function Nameclass(){
   );
 }
 
-
 class SideNav extends React.Component{
   render(){
     return(
@@ -132,105 +74,158 @@ class SideNav extends React.Component{
   }
 
 }
+//---------------------------------------------start Tabulation ----------------------------------------------------
 
-class Candidates extends React.Component{
-  delCandidate(){
-      deleteCandidate(this.props.eventid,this.props.contestantid);
-      getCandidates(this.props.eventid);
-      $("#candidateconfirmdelete"+this.props.contestantid).modal('hide');
-  }
-  updateCandidate(){
-      var UpdatedContestantName = $("#contestant-name"+this.props.contestantid).val();
-      var updatedContestantDescription = $("#contestant-description"+this.props.contestantid).val()
-      console.log("update test: " +UpdatedContestantName +" "+updatedContestantDescription);
-      updateCandidate(this.props.eventid,this.props.contestantid,UpdatedContestantName,updatedContestantDescription);
-      getCandidates(this.props.eventid);
-      $("#updateContestant"+this.props.contestantid).modal('hide');
-  }
-  componentDidMount(){
-    feather.replace();
-  }
-
-  render(){
-    return(
-        <div>
-        <div href="" className="list-group-item list-group-item-action flex-column align-items-start">
-          <div className="d-flex w-100 justify-content-between">
-            <h5 className="mb-1">{this.props.candidatename}</h5>
-            {/* <small>3 days ago</small> */}
-            <div className="row">
-              <i className = "mb-1 ml-3 align-middle" data-toggle="modal" data-target={"#updateContestant"+this.props.contestantid} data-feather = "edit-3"></i>
-              <i className = "mb-1 ml-2 align-middle text-danger" data-toggle="modal" data-target={"#candidateconfirmdelete"+this.props.contestantid} data-feather = "trash-2"></i>
+class MainTabulation extends React.Component {
+      componentDidMount(){
+        getEvents();
+      }
+      render(){
+      return(
+        <div className ="container pt-5">
+          <div className = "col-sm-12">
+            <button type="button" className="btn btn-primary ml-2" data-toggle="modal" data-target="#exampleModalCenter">
+            Add Event
+            </button>
+            <div  id="eventscontainer">
 
             </div>
-
           </div>
-          <p className="mb-1 text-info">{this.props.candidatedescription}</p>
-          {/* <small>Donec id elit non mi porta.</small> */}
 
-
-        </div>
-        {/* confirm Candidate Delete */}
-        <div className="modal fade" id={"candidateconfirmdelete"+this.props.contestantid} tabIndex="" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-          <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+          <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+                <h5 className="modal-title" id="exampleModalCenterTitle">Add Event</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
               </div>
               <div className="modal-body ">
-                <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+
+                <div className = "row pl-3 pr-3">
+                  <div className = "col-sm-12">
+                    <div className="input-group mb-3">
+                      <div className="input-group-prepend">
+                        <span className="input-group-text" id="basic-addon1">Event Name</span>
+                      </div>
+                      <input id = "eventname" type="text" className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div className="modal-footer">
-                <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="button" className="btn btn-primary" onClick = {this.delCandidate.bind(this)} >Delete</button>
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-primary" onClick={(e) => writeEventName()} >Save changes</button>
               </div>
             </div>
           </div>
+          </div>
         </div>
-        {/* end Of confirm delete modal */}
 
-        {/* update Contestant modal */}
-        <div className="modal fade" id={"updateContestant"+this.props.contestantid} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-        <div className="modal-dialog modal-dialog-centered modal-md" role="document">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalCenterTitle">Contestant</h5>
-              <button type="button" className="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div className="modal-body ">
-              <div className = "row pl-3 pr-3">
-                <div className = "col-sm-12">
-                  <div className="input-group mb-3">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text" id="basic-addon1">Contestant Name</span>
-                    </div>
-                    <input id = {"contestant-name"+this.props.contestantid} type="text" defaultValue={this.props.candidatename} className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
-                  </div>
+      );
+    }
+}
+
+class Candidates extends React.Component{
+      delCandidate(){
+          deleteCandidate(this.props.eventid,this.props.contestantid);
+          getCandidates(this.props.eventid);
+          $("#candidateconfirmdelete"+this.props.contestantid).modal('hide');
+      }
+      updateCandidate(){
+          var UpdatedContestantName = $("#contestant-name"+this.props.contestantid).val();
+          var updatedContestantDescription = $("#contestant-description"+this.props.contestantid).val()
+          console.log("update test: " +UpdatedContestantName +" "+updatedContestantDescription);
+          updateCandidate(this.props.eventid,this.props.contestantid,UpdatedContestantName,updatedContestantDescription);
+          getCandidates(this.props.eventid);
+          $("#updateContestant"+this.props.contestantid).modal('hide');
+      }
+      componentDidMount(){
+        feather.replace();
+      }
+
+      render(){
+        return(
+            <div>
+            <div href="" className="list-group-item list-group-item-action flex-column align-items-start">
+              <div className="d-flex w-100 justify-content-between">
+                <h5 className="mb-1">{this.props.candidatename}</h5>
+                {/* <small>3 days ago</small> */}
+                <div className="row">
+                  <i className = "mb-1 ml-3 align-middle" data-toggle="modal" data-target={"#updateContestant"+this.props.contestantid} data-feather = "edit-3"></i>
+                  <i className = "mb-1 ml-2 align-middle text-danger" data-toggle="modal" data-target={"#candidateconfirmdelete"+this.props.contestantid} data-feather = "trash-2"></i>
+
                 </div>
-                <div className = "col-sm-12">
-                  <div className="input-group">
-                    <div className="input-group-prepend">
-                      <span className="input-group-text">Description</span>
-                    </div>
-                    <textarea id = {"contestant-description"+this.props.contestantid} defaultValue={this.props.candidatedescription}  className="form-control" aria-label="With textarea"></textarea>
+
+              </div>
+              <p className="mb-1 text-info">{this.props.candidatedescription}</p>
+              {/* <small>Donec id elit non mi porta.</small> */}
+
+
+            </div>
+            {/* confirm Candidate Delete */}
+            <div className="modal fade" id={"candidateconfirmdelete"+this.props.contestantid} tabIndex="" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+                  </div>
+                  <div className="modal-body ">
+                    <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <button type="button" className="btn btn-primary" onClick = {this.delCandidate.bind(this)} >Delete</button>
                   </div>
                 </div>
               </div>
             </div>
-            <div className="modal-footer">
-              <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-              <button type="button" className="btn btn-primary" onClick = {this.updateCandidate.bind(this)} >Save changes</button>
+            {/* end Of confirm delete modal */}
+
+            {/* update Contestant modal */}
+            <div className="modal fade" id={"updateContestant"+this.props.contestantid} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+            <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+              <div className="modal-content">
+                <div className="modal-header">
+                  <h5 className="modal-title" id="exampleModalCenterTitle">Contestant</h5>
+                  <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div className="modal-body ">
+                  <div className = "row pl-3 pr-3">
+                    <div className = "col-sm-12">
+                      <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">Contestant Name</span>
+                        </div>
+                        <input id = {"contestant-name"+this.props.contestantid} type="text" defaultValue={this.props.candidatename} className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                      </div>
+                    </div>
+                    <div className = "col-sm-12">
+                      <div className="input-group">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text">Description</span>
+                        </div>
+                        <textarea id = {"contestant-description"+this.props.contestantid} defaultValue={this.props.candidatedescription}  className="form-control" aria-label="With textarea"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="modal-footer">
+                  <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="button" className="btn btn-primary" onClick = {this.updateCandidate.bind(this)} >Save changes</button>
+                </div>
+              </div>
             </div>
+            </div>
+              {/*End update Contestant modal */}
           </div>
-        </div>
-        </div>
-          {/*End update Contestant modal */}
-      </div>
-    )
-  }
+        )
+      }
 }
+
 class Judge extends React.Component{
   delJudge(){
     firebase.database().ref().child(refJudge).child(this.props.judgeEventId).child(this.props.judgeId).remove();
@@ -330,6 +325,7 @@ class Judge extends React.Component{
     )
   }
 }
+
 class Criteria extends React.Component{
   componentDidMount(){
     feather.replace();
@@ -430,7 +426,6 @@ class Criteria extends React.Component{
     )
   }
 }
-
 
 class Getevents extends React.Component{
 
@@ -743,15 +738,6 @@ class Getevents extends React.Component{
   }
 }
 
-  ReactDOM.render(<MainDashboard />,mainElement);
-  ReactDOM.render(
-    <div>
-      <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}  />
-      <SideNav ficon = "grid" cname = "nav-link" lname = {tabulation} eventc = {(e) => renderTabulation()} />
-      <SideNav ficon = "circle" cname = "nav-link" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
-    </div>
-    ,sidenNaveElement);
-      feather.replace();
 function writeEventName(){
   var eventname = document.getElementById('eventname').value;
   var currentDate = getCurrentDate();
@@ -789,12 +775,14 @@ function deleteCandidate(eventid,constestantid){
   console.log(eventid);
   return  firebase.database().ref().child(refCandidates).child(eventid).child(constestantid).remove();
 }
+
 function updateCandidate(eventid,constestantid,contestantname,contestantDescription){
  firebase.database().ref().child(refCandidates).child(eventid).child(constestantid).update({
     contestantname:contestantname,
     contestantDescription:contestantDescription
   });
 }
+
 function getJudge(key){
   var judgeContainer = document.getElementById("judge-container"+key);
   var judgeObjects = [];
@@ -813,6 +801,7 @@ function getJudge(key){
     )
   });
 }
+
 function getCriteria(key){
   var criteriaContainer = document.getElementById("criteria-container"+key);
   var criteriaObjects = [];
@@ -833,26 +822,26 @@ function getCriteria(key){
 }
 
 function getEvents(){
-var eventString = [];
-var eventsObjects = [];
-var eventDate=[];
-console.log("called getEvents");
-var eventscontainer = document.getElementById("eventscontainer");
- firebase.database().ref("events").orderByChild("key").once('value',function(snapshot){
-   snapshot.forEach(function(childsnapshot){
-     console.log(childsnapshot.val());
-     eventString.push(childsnapshot.val().eventname);
-     eventsObjects.push(childsnapshot.val());
+  var eventString = [];
+  var eventsObjects = [];
+  var eventDate=[];
+  console.log("called getEvents");
+  var eventscontainer = document.getElementById("eventscontainer");
+   firebase.database().ref("events").orderByChild("key").once('value',function(snapshot){
+     snapshot.forEach(function(childsnapshot){
+       console.log(childsnapshot.val());
+       eventString.push(childsnapshot.val().eventname);
+       eventsObjects.push(childsnapshot.val());
+     });
+    eventsObjects.reverse();
+     var listItem = eventsObjects.map((eventObject) =>
+       <Getevents key = {eventObject.key} event_id = {eventObject.key} event_name = {eventObject.eventname} event_date = {eventObject.date}/>
+     );
+     ReactDOM.render(
+       <div className = "row">
+       {listItem}</div>,eventscontainer
+     );
    });
-  eventsObjects.reverse();
-   var listItem = eventsObjects.map((eventObject) =>
-     <Getevents key = {eventObject.key} event_id = {eventObject.key} event_name = {eventObject.eventname} event_date = {eventObject.date}/>
-   );
-   ReactDOM.render(
-     <div className = "row">
-     {listItem}</div>,eventscontainer
-   );
- });
 
 }
 
@@ -869,8 +858,198 @@ function updateEventName(name,key_id){
   $(eventnameid).modal('hide');
   $(eventnameid).val("");
 }
+
+//---------------------------------------------End Tabulation ----------------------------------------------------
+
+//---------------------------------------------start Announcements ----------------------------------------------------
+function getAnnouncements(){
+var announcementsObjects = [];
+var announcementsContainer = document.getElementById("announcementsContainer");
+firebase.database().ref(refAnnouncements).orderByChild("key").once('value',function(snapshot){
+  snapshot.forEach(function(childsnapshot){
+    announcementsObjects.push(childsnapshot.val());
+  });
+  announcementsObjects.reverse();
+  var announcementsItems = announcementsObjects.map((announcementsObj)=>
+  <AnnouncementContainer key ={announcementsObj.key} id={announcementsObj.key} announcementTitle = {announcementsObj.announcementTitle} announcementDescription = {announcementsObj.announcementDescription} date = {announcementsObj.currentDate} time = {announcementsObj.currentTimeStomp}  />
+);
+ReactDOM.render(
+  <div className = "row">
+    {announcementsItems}
+  </div>,announcementsContainer
+);
+});
+}
+class MainAnnouncement extends React.Component{
+  componentDidMount(){
+    this.getAnnouncements();
+  }
+  addAnnouncement(){
+    var announcementTitle = $("#announcementName").val();
+    var announcementDescription = $("#announcementDescription").val();
+    var currentDate = getCurrentDate();
+    var currentTimeStomp = getCurrentTimeStomp();
+    var announcementKey = firebase.database().ref().push().key;
+    console.log("Announcement name "+announcementTitle+" "+announcementDescription+" "+announcementKey );
+    firebase.database().ref().child(refAnnouncements).child(announcementKey).set({
+      announcementTitle:announcementTitle,
+      announcementDescription:announcementDescription,
+      currentDate:currentDate,
+      currentTimeStomp:currentTimeStomp,
+      key:announcementKey
+    });
+    $("#exampleModalCenter").modal('hide');
+    this.getAnnouncements();
+
+  }
+
+  getAnnouncements(){
+    getAnnouncements();
+  }
+  render(){
+    return(
+      <div className ="container pt-5">
+        <div className = "col-sm-12">
+          <button type="button" className="btn btn-success ml-2" data-toggle="modal" data-target="#exampleModalCenter">
+          Add Announcements
+          </button>
+          <div  id="announcementsContainer" className="mt-3">
+
+          </div>
+        </div>
+        {/* Add Announcement Modal */}
+        <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title text-success" id="exampleModalCenterTitle">Add Announcements</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body ">
+                <div className="row">
+                    <div className = "col-sm-12">
+                      <p className="text-secondary ml-1">Announcement</p>
+                      <div className="input-group  mb-3">
+                        <input id="announcementName" type="text" className="form-control rounded border-success" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                      </div>
+                    </div>
+                    <p className="text-secondary ml-3">Description</p>
+                    <div className="col-sm-12">
+                      <div className="input-group" style={{height:300+'px'}}>
+                        <textarea id="announcementDescription" className="form-control rounded border-success" aria-label="With textarea"></textarea>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-success" onClick = {this.addAnnouncement.bind(this)}>Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* End Add Announcement Modal */}
+      </div>
+    );
+  }
+}
+
+
+class AnnouncementContainer extends React.Component{
+  componentDidMount(){
+    feather.replace();
+  }
+  updateAnnouncement(){
+    var updateDes = $("#announcementDescription"+this.props.id).val();
+    var updateTitle = $("#announcementName"+this.props.id).val();
+    firebase.database().ref().child(refAnnouncements).child(this.props.id).update({
+      announcementTitle:updateTitle,
+      announcementDescription:updateDes,
+    });
+    $("#editmodal"+this.props.id).modal("hide");
+    getAnnouncements();
+  }
+  deleteAnnouncement(){
+    firebase.database().ref().child(refAnnouncements).child(this.props.id).remove();
+    $("#confirmdelete"+this.props.id).modal("hide");
+    getAnnouncements();
+  }
+  render(){
+    return(
+      <div className="card w-100 mb-3" >
+        <div className="card-body">
+          <h5 className="card-title">{this.props.announcementTitle}</h5>
+          <p className ="font-weight-light"><i data-feather = "calendar" ></i>{this.props.date} at {this.props.time}</p>
+          <p className="card-text">{this.props.announcementDescription}</p>
+          <button className="btn btn-danger mr-3" data-toggle="modal" data-target = {"#confirmdelete"+this.props.id}><i data-feather = "trash-2"></i> Delete</button>
+          <button className="btn btn-success" data-toggle="modal" data-target={"#editmodal"+this.props.id}><i data-feather = "edit" ></i> Edit</button>
+        </div>
+        {/* edit modal start */}
+        <div className="modal fade" id={"editmodal"+this.props.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+          <div className="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div className="modal-content">
+              <div className="modal-header">
+                <h5 className="modal-title text-success" id="exampleModalCenterTitle">Add Announcements</h5>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div className="modal-body ">
+                <div className="row">
+                    <div className = "col-sm-12">
+                      <p className="text-secondary ml-1">Announcement</p>
+                      <div className="input-group  mb-3">
+                        <input id={"announcementName"+this.props.id} defaultValue = {this.props.announcementTitle} type="text" className="form-control rounded border-success" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
+                      </div>
+                    </div>
+                    <p className="text-secondary ml-3">Description</p>
+                    <div className="col-sm-12">
+                      <div className="input-group" style={{height:300+'px'}}>
+                        <textarea id={"announcementDescription"+this.props.id} defaultValue={this.props.announcementDescription} className="form-control rounded border-success" aria-label="With textarea"></textarea>
+                      </div>
+                    </div>
+                </div>
+              </div>
+              <div className="modal-footer">
+                <button type="button" className="btn btn-secondary"  data-dismiss="modal">Close</button>
+                <button type="button" className="btn btn-success" onClick = {this.updateAnnouncement.bind(this)}>Save changes</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* edit modal start */}
+        {/* confirm announcements delete modal */}
+        <div className="modal fade" id={"confirmdelete"+this.props.id} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
+            </div>
+            <div className="modal-body ">
+              <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+            </div>
+            <div className="modal-footer">
+              <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
+              <button type="button" className="btn btn-primary" onClick = {this.deleteAnnouncement.bind(this)} >Delete</button>
+            </div>
+          </div>
+        </div>
+        </div>
+        {/* end confirm announcements delete modal */}
+      </div>
+    );
+  }
+}
+
+//---------------------------------------------End Announcements ----------------------------------------------------
+
 function writeCriteria(){
 
+}
+function getCurrentTimeStomp(){
+  return new Date().toLocaleTimeString();
 }
 function getCurrentDate(){
   var d = new Date();
@@ -919,3 +1098,12 @@ function getMonthString(month){
           return "Month Doesnt Exist";
   }
 }
+ReactDOM.render(<MainAnnouncement />,mainElement);
+ReactDOM.render(
+  <div>
+    <SideNav ficon = "grid" cname = "nav-link " lname = {dashboard} eventc = {(e) => renderDashboard()}  />
+    <SideNav ficon = "grid" cname = "nav-link" lname = {tabulation} eventc = {(e) => renderTabulation()} />
+    <SideNav ficon = "circle" cname = "nav-link custom-active" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
+  </div>
+  ,sidenNaveElement);
+  feather.replace();
