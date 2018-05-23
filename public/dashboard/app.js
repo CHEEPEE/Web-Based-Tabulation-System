@@ -19,7 +19,7 @@ function renderTabulation(){
     <div>
       <SideNav ficon = "grid" cname = "nav-link" lname = {dashboard} eventc = {(e) => renderDashboard()} />
       <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {tabulation} eventc = {(e) => renderTabulation()} />
-      <SideNav ficon = "circle" cname = "nav-link" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
+
     </div>
     ,sidenNaveElement);
 }
@@ -41,7 +41,7 @@ function renderDashboard(){
     <div>
       <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}   />
       <SideNav ficon = "grid" cname = "nav-link " lname = {tabulation} eventc = {(e) => renderTabulation()} />
-      <SideNav ficon = "circle" cname = "nav-link " lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
+
     </div>
     ,sidenNaveElement);
 }
@@ -1098,12 +1098,12 @@ function getMonthString(month){
           return "Month Doesnt Exist";
   }
 }
-ReactDOM.render(<MainAnnouncement />,mainElement);
+ReactDOM.render(<MainTabulation />,mainElement);
 ReactDOM.render(
   <div>
     <SideNav ficon = "grid" cname = "nav-link " lname = {dashboard} eventc = {(e) => renderDashboard()}  />
-    <SideNav ficon = "grid" cname = "nav-link" lname = {tabulation} eventc = {(e) => renderTabulation()} />
-    <SideNav ficon = "circle" cname = "nav-link custom-active" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
+    <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {tabulation} eventc = {(e) => renderTabulation()} />
+
   </div>
   ,sidenNaveElement);
   feather.replace();
