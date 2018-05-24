@@ -3,7 +3,7 @@ var sidenNaveElement  = document.getElementById('side-nav');
 var mainElement = document.getElementById('main');
 var nameElement = document.getElementById('username');
 var name = "Momoland Nancy";
-const tabulation  = "Tabulation";
+const contest  = "Contest";
 const dashboard  ="Dashboard";
 const announcements = "Announcements";
 var datafeather = "data-feather";
@@ -18,7 +18,7 @@ function renderTabulation(){
   ReactDOM.render(
     <div>
       <SideNav ficon = "grid" cname = "nav-link" lname = {dashboard} eventc = {(e) => renderDashboard()} />
-      <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {tabulation} eventc = {(e) => renderTabulation()} />
+      <SideNav ficon = "layers" cname = "nav-link custom-active" lname = {contest} eventc = {(e) => renderTabulation()} />
 
     </div>
     ,sidenNaveElement);
@@ -29,7 +29,7 @@ function renderAnnouncements(){
   ReactDOM.render(
     <div>
       <SideNav ficon = "grid" cname = "nav-link" lname = {dashboard} eventc = {(e) => renderDashboard()} />
-      <SideNav ficon = "grid" cname = "nav-link " lname = {tabulation} eventc = {(e) => renderTabulation()} />
+      <SideNav ficon = "grid" cname = "nav-link " lname = {contest} eventc = {(e) => renderTabulation()} />
       <SideNav ficon = "circle" cname = "nav-link custom-active" lname = {announcements}  eventc = {(e) => renderAnnouncements()}/>
     </div>
     ,sidenNaveElement);
@@ -40,7 +40,7 @@ function renderDashboard(){
   ReactDOM.render(
     <div>
       <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}   />
-      <SideNav ficon = "grid" cname = "nav-link " lname = {tabulation} eventc = {(e) => renderTabulation()} />
+      <SideNav ficon = "layers" cname = "nav-link " lname = {contest} eventc = {(e) => renderTabulation()} />
 
     </div>
     ,sidenNaveElement);
@@ -1102,7 +1102,7 @@ ReactDOM.render(<MainTabulation />,mainElement);
 ReactDOM.render(
   <div>
     <SideNav ficon = "grid" cname = "nav-link " lname = {dashboard} eventc = {(e) => renderDashboard()}  />
-    <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {tabulation} eventc = {(e) => renderTabulation()} />
+    <SideNav ficon = "layers" cname = "nav-link custom-active" lname = {contest} eventc = {(e) => renderTabulation()} />
 
   </div>
   ,sidenNaveElement);
