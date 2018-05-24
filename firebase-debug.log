@@ -1,0 +1,80 @@
+[debug] [2018-05-24T15:39:32.699Z] ----------------------------------------------------------------------
+[debug] [2018-05-24T15:39:32.702Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Keji's Lab\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-05-24T15:39:32.702Z] CLI Version:   3.18.4
+[debug] [2018-05-24T15:39:32.702Z] Platform:      win32
+[debug] [2018-05-24T15:39:32.702Z] Node Version:  v6.10.3
+[debug] [2018-05-24T15:39:32.703Z] Time:          Thu May 24 2018 23:39:32 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T15:39:32.703Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-24T15:39:32.720Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-24T15:39:32.720Z] > authorizing via signed-in user
+[debug] [2018-05-24T15:39:32.723Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/sacjudge-d22dc  
+  
+ Thu May 24 2018 23:39:32 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T15:39:34.685Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T15:39:34.685Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/sacjudge-d22dc/tokens  
+  
+ Thu May 24 2018 23:39:34 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T15:39:35.881Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T15:39:35.883Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/sacjudge-d22dc  
+  
+ Thu May 24 2018 23:39:35 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T15:39:38.500Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Keji's Lab\gitsacjudge\Web-Based-Tabulation-System'...
+[info] 
+[debug] [2018-05-24T15:39:38.506Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/227280456315/clients/_:getWebAppConfig  
+  
+ Thu May 24 2018 23:39:38 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T15:39:40.383Z] <<< HTTP RESPONSE 200
+[info] i  hosting: Serving hosting files from: public
+[info] +  hosting: Local server: http://localhost:5000
+
+[debug] [2018-05-24T16:07:55.490Z] ----------------------------------------------------------------------
+[debug] [2018-05-24T16:07:55.493Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Keji's Lab\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase deploy
+[debug] [2018-05-24T16:07:55.493Z] CLI Version:   3.18.4
+[debug] [2018-05-24T16:07:55.493Z] Platform:      win32
+[debug] [2018-05-24T16:07:55.493Z] Node Version:  v6.10.3
+[debug] [2018-05-24T16:07:55.494Z] Time:          Fri May 25 2018 00:07:55 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T16:07:55.494Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-05-24T16:07:55.510Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-05-24T16:07:55.510Z] > authorizing via signed-in user
+[debug] [2018-05-24T16:07:55.516Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-05-24T16:07:55.517Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+ { refresh_token: '1/cGEPE5W46Zm7qK4xEFVTrVATdY5LN7QtZnHkjc8fupQ',
+  client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
+  client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
+  grant_type: 'refresh_token',
+  scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
+ Fri May 25 2018 00:07:55 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T16:08:00.399Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T16:08:00.447Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/sacjudge-d22dc  
+  
+ Fri May 25 2018 00:08:00 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T16:08:06.013Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T16:08:06.014Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/sacjudge-d22dc/tokens  
+  
+ Fri May 25 2018 00:08:06 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T16:08:07.612Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Deploying to 'sacjudge-d22dc'...
+[info] 
+[info] i  deploying hosting
+[info] i  hosting: preparing public directory for upload...
+[debug] [2018-05-24T16:08:14.252Z] >>> HTTP REQUEST PUT https://deploy.firebase.com/v1/hosting/sacjudge-d22dc/uploads/-LDHu51WRTzhhn1ZW41y?fileCount=1562&message=  
+  
+ Fri May 25 2018 00:08:14 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T16:12:56.053Z] <<< HTTP RESPONSE 200
+[debug] [2018-05-24T16:12:56.058Z] [hosting] .tgz uploaded successfully, waiting for extraction
+[info] +  hosting: 1562 files uploaded successfully
+[debug] [2018-05-24T16:12:56.734Z] [hosting] deploy completed after 285193ms
+[debug] [2018-05-24T16:12:58.030Z] >>> HTTP REQUEST POST https://deploy.firebase.com/v1/projects/sacjudge-d22dc/releases  
+ { hosting: 
+   { public: 'public',
+     ignore: [ 'firebase.json', '**/.*', '**/node_modules/**' ],
+     version: '-LDHu51WRTzhhn1ZW41y',
+     prefix: '-LDHu51WRTzhhn1ZW41y/',
+     manifest: [] } } 
+ Fri May 25 2018 00:12:58 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-05-24T16:13:01.668Z] <<< HTTP RESPONSE 200
