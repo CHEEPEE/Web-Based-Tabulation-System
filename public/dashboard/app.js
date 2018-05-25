@@ -172,7 +172,7 @@ class Candidates extends React.Component{
                     <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
                   </div>
                   <div className="modal-body ">
-                    <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+                    <p className = "flow-text">Are You Sure To Delete This?</p>
                   </div>
                   <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -273,7 +273,7 @@ class Judge extends React.Component{
                 <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
               </div>
               <div className="modal-body ">
-                <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+                <p className = "flow-text">Are You Sure To Delete This?</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -372,7 +372,7 @@ class Criteria extends React.Component{
               <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
             </div>
             <div className="modal-body ">
-              <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+              <p className = "flow-text">Are You Sure To Delete This?</p>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -721,7 +721,7 @@ class Getevents extends React.Component{
                 <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
               </div>
               <div className="modal-body ">
-                <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+                <p className = "flow-text">Are You Sure To Delete This?</p>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -1028,7 +1028,7 @@ class AnnouncementContainer extends React.Component{
               <h5 className="modal-title" id="exampleModalCenterTitle">Confirm Delete</h5>
             </div>
             <div className="modal-body ">
-              <p className = "flow-text">Are You Sure To Delete This Shit?</p>
+              <p className = "flow-text">Are You Sure To Delete This?</p>
             </div>
             <div className="modal-footer">
               <button type="button" className="btn btn-secondary" data-dismiss="modal">Cancel</button>
