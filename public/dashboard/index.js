@@ -1,6 +1,6 @@
 //dashborad js
 var server = "http://localhost:5000";
-server = "https://sacjudge-d22dc.firebaseapp.com";
+// server = "https://sacjudge-d22dc.firebaseapp.com";
 firebase.auth().onAuthStateChanged(function(user) {
   if (user) {
     // User is signed in.
