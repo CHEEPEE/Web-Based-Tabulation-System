@@ -17,8 +17,8 @@ function renderTabulation(){
   ReactDOM.render(<MainTabulation />,mainElement);
   ReactDOM.render(
     <div>
-      <SideNav ficon = "grid" cname = "nav-link" lname = {dashboard} eventc = {(e) => renderDashboard()} />
-      <SideNav ficon = "layers" cname = "nav-link custom-active" lname = {contest} eventc = {(e) => renderTabulation()} />
+      <SideNav ficon = "grid" cname = "sideNav-menus-font nav-link" lname = {dashboard} eventc = {(e) => renderDashboard()} />
+      <SideNav ficon = "layers" cname = "sideNav-menus-font nav-link custom-active" lname = {contest} eventc = {(e) => renderTabulation()} />
 
     </div>
     ,sidenNaveElement);
@@ -39,8 +39,8 @@ function renderDashboard(){
   ReactDOM.render(<MainDashboard />,mainElement);
   ReactDOM.render(
     <div>
-      <SideNav ficon = "grid" cname = "nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}   />
-      <SideNav ficon = "layers" cname = "nav-link " lname = {contest} eventc = {(e) => renderTabulation()} />
+      <SideNav ficon = "grid" cname = "sideNav-menus-font nav-link custom-active" lname = {dashboard} eventc = {(e) => renderDashboard()}   />
+      <SideNav ficon = "layers" cname = "sideNav-menus-font nav-link " lname = {contest} eventc = {(e) => renderTabulation()} />
 
     </div>
     ,sidenNaveElement);
@@ -231,6 +231,8 @@ class Judge extends React.Component{
     firebase.database().ref().child(refJudge).child(this.props.judgeEventId).child(this.props.judgeId).remove();
     $("#confimrDeleteJudge"+this.props.judgeId).modal('hide');
     getJudge(this.props.judgeEventId);
+    firebase.database().ref().child("routeJudges").child(this.props.judgeId).remove();
+
   }
   updateJudge(){
     var updatedJudgeName =$("#judge-name"+this.props.judgeId).val();
@@ -239,10 +241,12 @@ class Judge extends React.Component{
       judgeName:updatedJudgeName,
       judgeDescription:updatedJudgeDescription
     });
+    firebase.database().ref().child("routeJudges").child(this.props.judgeId).update({
+      judgeName:updatedJudgeName,
+      judgeDescription:updatedJudgeDescription
+    });
     getJudge(this.props.judgeEventId);
     $("#updateJudge"+this.props.judgeId).modal('hide');
-
-
   }
   componentDidMount(){
     feather.replace();
@@ -252,7 +256,7 @@ class Judge extends React.Component{
       <div>
           <div href="" className="list-group-item list-group-item-action flex-column align-items-start">
             <div className="d-flex w-100 justify-content-between">
-              <h5 className="mb-1">{this.props.judgeName}</h5>
+              <h5 className="mb-1" data-toggle="modal" data-target={"#detailsJudgeModal"+this.props.judgeId}>{this.props.judgeName}</h5>
               {/* <small>3 days ago</small> */}
               <div className="row">
                 <i className = "mb-1 ml-3 align-middle" data-toggle="modal" data-target={"#updateJudge"+this.props.judgeId} data-feather = "edit-3"></i>
@@ -321,6 +325,29 @@ class Judge extends React.Component{
           </div>
           </div>
             {/*End update Contestant modal */}
+            {/* Details Judge modal */}
+            <div className="modal fade" id={"detailsJudgeModal"+this.props.judgeId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+              <div className="modal-dialog modal-dialog-centered modal-md" role="document">
+                <div className="modal-content">
+                  <div className="modal-header">
+                    <h5 className="modal-title" id="exampleModalCenterTitle">Judge</h5>
+                    <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div className="modal-body ">
+                    <div className = "row pl-3 pr-3">
+                      <img src={"https://api.qrserver.com/v1/create-qr-code/?data="+this.props.judgeId+"&amp;size=200x200"} alt="" title="" />
+                    </div>
+                  </div>
+                  <div className="modal-footer">
+                    <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" className="btn btn-primary">Save changes</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/*End Details Judge modal */}
       </div>
     )
   }
@@ -481,6 +508,12 @@ class Getevents extends React.Component{
     var judgeKey = firebase.database().ref().child(refJudge).child(this.props.event_id).push().key;
 
     firebase.database().ref().child(refJudge).child(this.props.event_id).child(judgeKey).set({
+      judgeName:judgeName,
+      judgeDescription:judgeDescription,
+      eventid:this.props.event_id,
+      judgeId:judgeKey
+    });
+    firebase.database().ref().child("routeJudges").child(judgeKey).set({
       judgeName:judgeName,
       judgeDescription:judgeDescription,
       eventid:this.props.event_id,
@@ -703,6 +736,8 @@ class Getevents extends React.Component{
                 </div>
                 </div>
                   {/*End add Judge modal */}
+
+
 
                 {/* End Judge Container */}
               </div>
@@ -1101,8 +1136,8 @@ function getMonthString(month){
 ReactDOM.render(<MainTabulation />,mainElement);
 ReactDOM.render(
   <div>
-    <SideNav ficon = "grid" cname = "nav-link " lname = {dashboard} eventc = {(e) => renderDashboard()}  />
-    <SideNav ficon = "layers" cname = "nav-link custom-active" lname = {contest} eventc = {(e) => renderTabulation()} />
+    <SideNav ficon = "grid" cname = "sideNav-menus-font nav-link " lname = {dashboard} eventc = {(e) => renderDashboard()}  />
+    <SideNav ficon = "layers" cname = "sideNav-menus-font nav-link custom-active" lname = {contest} eventc = {(e) => renderTabulation()} />
 
   </div>
   ,sidenNaveElement);
