@@ -9,12 +9,13 @@ body{
   left: -10px;
 
 }
-.nav-link:hover{
-background-color:#000;
-}
+
 .dark-grey{
   background-color: #353535;
 }
 .custom-active{
 background-color: #28a745;
+}
+.modal-backdrop {
+    display: none!important;
 }

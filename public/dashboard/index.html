@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8">
     <title></title>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
     <link rel="stylesheet" href="../assets/bootstrap/css/bootstrap.css">
     <script src="../assets/js/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
@@ -15,6 +16,7 @@
     <script crossorigin src="https://unpkg.com/react-dom@16/umd/react-dom.development.js"></script>
     <script src="../js/babel.min.js"></script>
     <style media="screen">
+
     .vertical-center {
       /* min-height: 100%;
       min-height: 100vh;  */
@@ -48,34 +50,83 @@
   <body>
 
     <div class="row">
-      <div class="col-sm-2 dark-grey custom-sidenav">
+      <div class="w3-sidebar bg-dark pt-3 w3-bar-block animated bounceInLeft" style="display:none" id="mySidebar">
         <div class="text-center mt-5">
-          <img src="../assets/images/icon.jpg" class="rounded" width="100px" height="100px" style="border:0px solid white;border-radius:50%!important;" alt="profile_picture">
+          <img src="../assets/images/icon.png" class="rounded" width="100px" height="100px" style="border:0px solid white;border-radius:50%!important;" alt="profile_picture">
           <div id="username" class="mt-2 text-white username" data-toggle="tooltip" data-placement="top" title="Click to Edit Profile"></div>
         </div>
 
-        <div class="m-3 text-white">
-          <div id="side-nav" class="username nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+        <div class="container p-2 m-2 text-white">
+          <div id="side-nav" class="username mr-3 ml-3 nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 
           </div>
         </div>
     </div>
-    <div class="col-sm-2" style="padding:0px!important;z-index:-10;">
-
-    </div>
-    <div class="col-sm-10" style="padding:0px!important">
+    <div id="main" class="w-100" style="padding:0px!important">
       <nav class="navbar navbar-dark bg-success justify-content-between">
-        <a class="navbar-brand text-white">Sac Tabulation And Events System</a>
+        <a class="navbar-brand text-white">SAC Tabulation And Events System</a>
         <form class="form-inline">
           <button onclick="logout()" class="mr-3 btn btn-outline-light my-2 my-sm-0">Log out</button>
         </form>
       </nav>
-      <div id="main" class="row">
+      <div id="accordion" class="container">
 
       </div>
+
+
     </div>
 
 </div>
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
+<script>
+var ctx = document.getElementById("myChart").getContext('2d');
+var data = {
+    datasets: [{
+        data: [10, 20, 30],
+        backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+    }],
+
+    // These labels appear in the legend and in the tooltips when hovering different arcs
+    labels: [
+        'Red',
+        'Yellow',
+        'Blue'
+    ]
+};
+var myChart = new Chart(ctx, {
+    type: 'pie',
+    data: data
+
+});
+</script>
+<div id="candidateModals">
+
+</div>
+<div id="criteriaModals">
+
+</div>
+<div id="judgeModals">
+
+</div>
+
 
 
 <script type="text/babel" src="app.js">
@@ -98,6 +149,20 @@
 <script type="text/babel" src="index.js"></script>
 
 <script>
+function w3_open() {
+  document.getElementById("main").style.marginLeft = "14.7%";
+  document.getElementById("mySidebar").style.width = "15%";
+  document.getElementById("mySidebar").style.display = "block";
+  document.getElementById("openNav").style.display = 'none';
+  document.getElementById("closeNav").style.display = "inline-block";
+}
+function w3_close() {
+  document.getElementById("main").style.marginLeft = "0%";
+  document.getElementById("mySidebar").style.display = "none";
+  document.getElementById("openNav").style.display = "inline-block";
+  document.getElementById("closeNav").style.display = "none";
+}
+w3_open();
   feather.replace();
 
 </script>
