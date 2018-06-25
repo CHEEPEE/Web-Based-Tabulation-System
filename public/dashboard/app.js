@@ -333,7 +333,9 @@ class Judge extends React.Component{
                       {/* qr code fetcher api */}
 
                         <div className="col-8">
-                          <img src={"https://api.qrserver.com/v1/create-qr-code/?data="+this.props.judgeId+"&amp;size=200x200"} alt="" title="" />
+                          <a href={"https://api.qrserver.com/v1/create-qr-code/?data="+this.props.judgeId+"&amp;size=200x200"}  download ="thefile">
+                            <img src={"https://api.qrserver.com/v1/create-qr-code/?data="+this.props.judgeId+"&amp;size=200x200"} alt="dff" title="sdsdfsf"  />
+                          </a>
                         </div>
                         <div className="col-4">
                           <h4>{this.props.judgeName}</h4>
@@ -573,24 +575,32 @@ class Getevents extends React.Component{
     var criteriaName = $("#c-name"+this.props.event_id).val();
     var criteriaPercent = $("#c-percent"+this.props.event_id).val();
     console.log(criteriaName+" "+criteriaPercent);
-    var criteriaKey = firebase.database().ref().child(refCriteria).child(eventid).push().key;
+    if (this.validateCriteria()==true) {
+      var criteriaKey = firebase.database().ref().child(refCriteria).child(eventid).push().key;
 
-    firebase.database().ref().child(refCriteria).child(this.props.event_id).child(criteriaKey).set({
-      eventKey:eventid,
-      criteriaKey:criteriaKey,
-      criteriaName:criteriaName,
-      criteriaPercentage:criteriaPercent
-    });
-    getCriteria(eventid);
-    $("#addcriteriamodel"+this.props.event_id).modal('hide');
-    $("#c-name"+this.props.event_id).val("");
-    $("#c-percent"+this.props.event_id).val("");
-    // getCriteria(this.props.event_id);
-    criteriaPieGraph(this.props.event_id);
-
+      firebase.database().ref().child(refCriteria).child(this.props.event_id).child(criteriaKey).set({
+        eventKey:eventid,
+        criteriaKey:criteriaKey,
+        criteriaName:criteriaName,
+        criteriaPercentage:criteriaPercent
+      });
+      getCriteria(eventid);
+      $("#addcriteriamodel"+this.props.event_id).modal('hide');
+      $("#c-name"+this.props.event_id).val("");
+      $("#c-percent"+this.props.event_id).val("");
+      criteriaPieGraph(this.props.event_id);
+    }else {
+      alert("input invalid");
+    }
   }
   validateCriteria(){
-
+    var criteriaPercent = $("#c-percent"+this.props.event_id).val();
+    var criteriaName = $("#c-name"+this.props.event_id).val();
+    if (criteriaPercent>0 && criteriaName.trim()!="" && criteriaPercent != "") {
+        return true;
+    }else {
+      return false;
+    }
   }
   backdropOffModal(){
     console.log("clikced");
@@ -611,7 +621,6 @@ class Getevents extends React.Component{
     $("#addContestantModal"+this.props.event_id).modal('hide');
     $("#contestant-name"+this.props.event_id).val("");
     $("#contestant-descriptions"+this.props.event_id).val("");
-
 
   }
   addJudge(){
@@ -811,7 +820,7 @@ class Getevents extends React.Component{
                         </div>
                         <div className = "col-sm-3">
                           <div className="input-group mb-3">
-                            <input id={"c-percent"+this.props.event_id} type="text" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                            <input id={"c-percent"+this.props.event_id} max-length = "2" className="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
                             <div className="input-group-append">
                               <span className="input-group-text" id="basic-addon2">%</span>
                             </div>
