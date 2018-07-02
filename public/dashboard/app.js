@@ -227,12 +227,6 @@ class Judge extends React.Component{
     firebase.database().ref().child("routeJudges").child(this.props.judgeId).remove();
 
   }
-  copyAccessCode(){
-    var copyText = document.getElementById("access-code-field"+this.props.judgeId);
-    copyText.select();
-    document.execCommand("copy");
-    alert("Access Code Copied " + copyText.value);
-  }
   updateJudge(){
     var updatedJudgeName =$("#judge-name"+this.props.judgeId).val();
     var updatedJudgeDescription = $("#judge-description"+this.props.judgeId).val();
@@ -330,20 +324,11 @@ class Judge extends React.Component{
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalCenterTitle">Judge</h5>
-                    
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div className="modal-body ">
-                    <div className = 'row m-3'>
-                      <div className="input-group mb-3">
-                          <input type="text" id = {"access-code-field"+this.props.judgeId} className="form-control" defaultValue={this.props.judgeId} placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
-                          <div className="input-group-append">
-                            <span className="input-group-text" onClick = {this.copyAccessCode.bind(this)} id="basic-addon2">Copy Access Code</span>
-                          </div>
-                      </div>
-                    </div>
                     <div className = "row pl-2 pr-2">
                       {/* qr code fetcher api */}
 
