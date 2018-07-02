@@ -227,6 +227,12 @@ class Judge extends React.Component{
     firebase.database().ref().child("routeJudges").child(this.props.judgeId).remove();
 
   }
+  copyAccessCode(){
+    var copyText = document.getElementById("access-code-field"+this.props.judgeId);
+    copyText.select();
+    document.execCommand("copy");
+    alert("Access Code Copied " + copyText.value);
+  }
   updateJudge(){
     var updatedJudgeName =$("#judge-name"+this.props.judgeId).val();
     var updatedJudgeDescription = $("#judge-description"+this.props.judgeId).val();
@@ -280,12 +286,12 @@ class Judge extends React.Component{
           </div>
           </div>
           {/* end confirm judge delete modal */}
-          {/* update Contestant modal */}
+          {/* update Judge modal */}
           <div className="modal fade" id={"updateJudge"+this.props.judgeId} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered modal-md" role="document">
             <div className="modal-content">
               <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalCenterTitle">Contestant</h5>
+                <h5 className="modal-title" id="exampleModalCenterTitle">Update Judge</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
@@ -295,7 +301,7 @@ class Judge extends React.Component{
                   <div className = "col-sm-12">
                     <div className="input-group mb-3">
                       <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-addon1">Contestant Name</span>
+                        <span className="input-group-text" id="basic-addon1">Judge Name</span>
                       </div>
                       <input id = {"judge-name"+this.props.judgeId} type="text" defaultValue={this.props.judgeName} className="form-control" placeholder="" aria-label="Username" aria-describedby="basic-addon1"/>
                     </div>
@@ -324,11 +330,20 @@ class Judge extends React.Component{
                 <div className="modal-content">
                   <div className="modal-header">
                     <h5 className="modal-title" id="exampleModalCenterTitle">Judge</h5>
+                    
                     <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                   </div>
                   <div className="modal-body ">
+                    <div className = 'row m-3'>
+                      <div className="input-group mb-3">
+                          <input type="text" id = {"access-code-field"+this.props.judgeId} className="form-control" defaultValue={this.props.judgeId} placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2"/>
+                          <div className="input-group-append">
+                            <span className="input-group-text" onClick = {this.copyAccessCode.bind(this)} id="basic-addon2">Copy Access Code</span>
+                          </div>
+                      </div>
+                    </div>
                     <div className = "row pl-2 pr-2">
                       {/* qr code fetcher api */}
 
@@ -344,10 +359,10 @@ class Judge extends React.Component{
 
                     </div>
                   </div>
-                  <div className="modal-footer">
+                  {/* <div className="modal-footer">
                     <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
                     <button type="button" className="btn btn-primary">Save changes</button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
@@ -420,7 +435,7 @@ class CriteriaOnModal extends React.Component{
         <div className="modal-dialog modal-dialog-centered modal-md" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalCenterTitle">Add Criteria</h5>
+              <h5 className="modal-title" id="exampleModalCenterTitle">Edit Criteria</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
@@ -500,7 +515,7 @@ class Criteria extends React.Component{
 
           {/* <small>Donec id elit non mi porta.</small> */}
         </div>
-        {/* confirm judge delete modal */}
+        {/* confirm criteria delete modal */}
         <div className="modal fade" id={"confimrDeleteCriteria"+this.props.criteriaKey} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-md" role="document">
           <div className="modal-content">
@@ -517,13 +532,13 @@ class Criteria extends React.Component{
           </div>
         </div>
         </div>
-        {/* end confirm judge delete modal */}
+        {/* end confirm criteria delete modal */}
         {/* update Criteria modal */}
         <div className="modal fade" id={"updateCriteriaModal"+this.props.criteriaKey} tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered modal-md" role="document">
           <div className="modal-content">
             <div className="modal-header">
-              <h5 className="modal-title" id="exampleModalCenterTitle">Add Criteria</h5>
+              <h5 className="modal-title" id="exampleModalCenterTitle">Update Criteria</h5>
               <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
