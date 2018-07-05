@@ -219,6 +219,61 @@ class Candidates extends React.Component {
   }
 }
 
+class Results extends React.Component {
+
+  componentDidMount() {
+    feather.replace();
+    var resultContainer = document.getElementById("result"+this.props.contestantid);
+    var candidateObjects = 0;
+    var candidateNumber = 0;
+    firebase.database().ref("resultTotal").child("event"+this.props.eventid).child("contestant"+this.props.contestantid).once('value', function (snapshot) {
+      snapshot.forEach(function (childsnapshot) {
+        candidateObjects = candidateObjects+childsnapshot.val().totalRating;
+        candidateNumber++;
+        console.log(childsnapshot.val().totalRating);
+       
+      });
+      if (candidateNumber!=0){
+        ReactDOM.render(
+          <div>
+            {candidateObjects/candidateNumber}
+           </div>
+           , resultContainer
+         );
+       
+      }
+      
+    
+    });
+
+  }
+
+  render() {
+    return (
+      <div className="list-group-item flex-column align-items-start">
+        <div className="d-flex w-100 justify-content-between">
+          <h5 className="mb-1">{this.props.candidatename}</h5>
+          {/* <small>3 days ago</small> */}
+          <div id={"result"+this.props.contestantid} className="row">
+            
+
+          </div>
+
+        </div>
+        <p className="mb-1 text-info">{this.props.candidatedescription}</p>
+        {/* <small>Donec id elit non mi porta.</small> */}
+        {/* confirm Candidate Delete */}
+      
+        {/* end Of confirm delete modal */}
+
+        {/* update Contestant modal */}
+
+        {/*End update Contestant modal */}
+      </div>
+    )
+  }
+}
+
 // **************************************************** End Candidates ********************************************************
 
 
@@ -680,9 +735,7 @@ class Getevents extends React.Component {
     getCriteria(this.props.event_id);
     getJudge(this.props.event_id);
     criteriaPieGraph(this.props.event_id);
-
-
-
+    getResults(this.props.event_id);
   }
   updateEventName() {
     var update = $("#eventname" + this.props.event_id).val();
@@ -986,15 +1039,11 @@ class Getevents extends React.Component {
                   <div className="tab-pane fade" id={"pills-results" + this.props.event_id} role="tabpanel" aria-labelledby="pills-results-tab">
                     <div className="row">
                       <div className="col-sm-12 m2">
-                       
-                        <div id={"result-container" + this.props.event_id}>
-                          {/* Results Container */}
+                        <div id={"results-container" + this.props.event_id}>
+                        {/* Results Container */}
 
 
                         </div>
-                        {/* add Results modal */}
-                        {/*End add Results modal */}
-
                         {/* End Results Container */}
                       </div>
                     </div>
@@ -1026,6 +1075,24 @@ function writeEventName() {
   getEvents();
   $('#exampleModalCenter').modal('hide');
   $("#eventname").val("");
+}
+
+function getResults(key) {
+  var candidateContainer = document.getElementById("results-container" + key);
+  var candidateObjects = [];
+  firebase.database().ref(refCandidates).child(key).once('value', function (snapshot) {
+    snapshot.forEach(function (childsnapshot) {
+      candidateObjects.push(childsnapshot.val());
+    });
+    var candidateListItem = candidateObjects.map((canidateObj) =>
+      <Results key={canidateObj.contestantid} contestantid={canidateObj.contestantid} eventid={canidateObj.eventid} candidatedescription={canidateObj.contestantDescription} candidatename={canidateObj.contestantname} />
+    );
+    ReactDOM.render(
+      <div className="list-group mt-2 mb-2">
+        {candidateListItem}
+      </div>, candidateContainer
+    )
+  });
 }
 
 function getCandidates(key) {

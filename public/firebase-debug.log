@@ -1,41 +1,57 @@
-[debug] [2018-07-05T07:36:50.016Z] ----------------------------------------------------------------------
-[debug] [2018-07-05T07:36:50.019Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Keji\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
-[debug] [2018-07-05T07:36:50.019Z] CLI Version:   3.18.6
-[debug] [2018-07-05T07:36:50.019Z] Platform:      win32
-[debug] [2018-07-05T07:36:50.019Z] Node Version:  v8.11.3
-[debug] [2018-07-05T07:36:50.020Z] Time:          Thu Jul 05 2018 15:36:50 GMT+0800 (Malay Peninsula Standard Time)
-[debug] [2018-07-05T07:36:50.020Z] ----------------------------------------------------------------------
+[debug] [2018-07-05T11:16:09.171Z] ----------------------------------------------------------------------
+[debug] [2018-07-05T11:16:09.175Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Keji\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-07-05T11:16:09.175Z] CLI Version:   3.18.6
+[debug] [2018-07-05T11:16:09.175Z] Platform:      win32
+[debug] [2018-07-05T11:16:09.175Z] Node Version:  v8.11.3
+[debug] [2018-07-05T11:16:09.176Z] Time:          Thu Jul 05 2018 19:16:09 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:09.176Z] ----------------------------------------------------------------------
 [debug] 
-[debug] [2018-07-05T07:36:50.047Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
-[debug] [2018-07-05T07:36:50.048Z] > authorizing via signed-in user
-[debug] [2018-07-05T07:36:50.050Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
-[debug] [2018-07-05T07:36:50.050Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+[debug] [2018-07-05T11:16:09.195Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-07-05T11:16:09.196Z] > authorizing via signed-in user
+[debug] [2018-07-05T11:16:09.198Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-07-05T11:16:09.198Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
  { refresh_token: '1/zZ_xziBtxd3psZWiwmVckeK0Y3FgXlBMrPYUIW5jkM4',
   client_id: '563584335869-fgrhgmd47bqnekij5i8b5pr03ho849e6.apps.googleusercontent.com',
   client_secret: 'j9iVZfS8kkCEFUPaAeJV0sAi',
   grant_type: 'refresh_token',
   scope: 'email https://www.googleapis.com/auth/cloud-platform https://www.googleapis.com/auth/cloudplatformprojects.readonly https://www.googleapis.com/auth/firebase openid' } 
- Thu Jul 05 2018 15:36:50 GMT+0800 (Malay Peninsula Standard Time)
-[debug] [2018-07-05T07:36:50.940Z] <<< HTTP RESPONSE 200
-[debug] [2018-07-05T07:36:50.948Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/sacjudge-d22dc  
+ Thu Jul 05 2018 19:16:09 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:18.713Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-05T11:16:18.721Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/sacjudge-d22dc  
   
- Thu Jul 05 2018 15:36:50 GMT+0800 (Malay Peninsula Standard Time)
-[debug] [2018-07-05T07:36:52.734Z] <<< HTTP RESPONSE 200
-[debug] [2018-07-05T07:36:52.734Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/sacjudge-d22dc/tokens  
+ Thu Jul 05 2018 19:16:18 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:24.338Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-05T11:16:24.339Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/database/sacjudge-d22dc/tokens  
   
- Thu Jul 05 2018 15:36:52 GMT+0800 (Malay Peninsula Standard Time)
-[debug] [2018-07-05T07:36:55.276Z] <<< HTTP RESPONSE 200
-[debug] [2018-07-05T07:36:55.277Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/sacjudge-d22dc  
+ Thu Jul 05 2018 19:16:24 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:26.664Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-05T11:16:26.665Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/sacjudge-d22dc  
   
- Thu Jul 05 2018 15:36:55 GMT+0800 (Malay Peninsula Standard Time)
-[debug] [2018-07-05T07:36:57.080Z] <<< HTTP RESPONSE 200
+ Thu Jul 05 2018 19:16:26 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:37.630Z] <<< HTTP RESPONSE 200
 [info] 
 [info] === Serving from 'C:\Users\Keji\gitsacjudge\Web-Based-Tabulation-System'...
 [info] 
-[debug] [2018-07-05T07:36:57.083Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/227280456315/clients/_:getWebAppConfig  
+[info] i  functions: Preparing to emulate functions.
+[debug] [2018-07-05T11:16:39.207Z] Fetching environment
+[debug] [2018-07-05T11:16:39.212Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/227280456315:getServerAppConfig  
   
- Thu Jul 05 2018 15:36:57 GMT+0800 (Malay Peninsula Standard Time)
-[debug] [2018-07-05T07:36:58.918Z] <<< HTTP RESPONSE 200
+ Thu Jul 05 2018 19:16:39 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:39.213Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/227280456315/clients/_:getWebAppConfig  
+  
+ Thu Jul 05 2018 19:16:39 GMT+0800 (Malay Peninsula Standard Time)
+[debug] [2018-07-05T11:16:42.968Z] <<< HTTP RESPONSE 200
+[debug] [2018-07-05T11:16:42.968Z] Starting @google-cloud/functions-emulator
+[debug] [2018-07-05T11:16:45.519Z] Parsing function triggers
+[debug] [2018-07-05T11:16:45.529Z] <<< HTTP RESPONSE 200
 [info] i  hosting: Serving hosting files from: public
 [info] +  hosting: Local server: http://localhost:5000
 
+[warn] !  functions: Failed to load functions source code. Ensure that you have the latest SDK by running npm i --save firebase-functions inside the functions directory.
+[debug] [2018-07-05T11:16:45.825Z] Error during trigger parsing:  Error parsing triggers: Cannot find module 'firebase-functions'
+
+Try running "npm install" in your functions directory before deploying.
+[warn] !  functions: Error from emulator. Error parsing triggers: Cannot find module 'firebase-functions'
+
+Try running "npm install" in your functions directory before deploying.
+[debug] [2018-07-05T11:16:45.826Z] 
