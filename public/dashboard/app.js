@@ -231,7 +231,7 @@ class Results extends React.Component {
         candidateObjects = candidateObjects+childsnapshot.val().totalRating;
         candidateNumber++;
         console.log(childsnapshot.val().totalRating);
-       
+
       });
       if (candidateNumber!=0){
         ReactDOM.render(
@@ -240,10 +240,10 @@ class Results extends React.Component {
            </div>
            , resultContainer
          );
-       
+
       }
-      
-    
+
+
     });
 
   }
@@ -255,7 +255,7 @@ class Results extends React.Component {
           <h5 className="mb-1">{this.props.candidatename}</h5>
           {/* <small>3 days ago</small> */}
           <div id={"result"+this.props.contestantid} className="row">
-            
+
 
           </div>
 
@@ -263,7 +263,7 @@ class Results extends React.Component {
         <p className="mb-1 text-info">{this.props.candidatedescription}</p>
         {/* <small>Donec id elit non mi porta.</small> */}
         {/* confirm Candidate Delete */}
-      
+
         {/* end Of confirm delete modal */}
 
         {/* update Contestant modal */}
@@ -742,6 +742,11 @@ class Getevents extends React.Component {
     updateEventName(update, this.props.event_id);
   }
 
+  printResults(){
+    var win = window.open('print_results.html?eventid='+this.props.event_id,"_blank");
+    win.focus();
+  }
+
   render() {
     return (
 
@@ -820,7 +825,7 @@ class Getevents extends React.Component {
           {/* End Edit Event title modal */}
            {/* event body card */}
           <div className="card-body collapse hide" id={"collapseOne" + this.props.event_id} aria-labelledby="headingOne" data-parent="#accordion">
-           
+
             <div className="container-fluid col-sm-12 m-2">
               <ul className="nav nav-pills mb-3" id="pills-tab" role="tablist">
                 <li className="nav-item mr-3">
@@ -1039,6 +1044,9 @@ class Getevents extends React.Component {
                   <div className="tab-pane fade" id={"pills-results" + this.props.event_id} role="tabpanel" aria-labelledby="pills-results-tab">
                     <div className="row">
                       <div className="col-sm-12 m2">
+                        <button type="button" className="btn btn-outline-primary mb-2" onClick={this.printResults.bind(this)} data-toggle="modal" data-target={"#" + this.props.event_id}>
+                          Print Results
+                          </button>
                         <div id={"results-container" + this.props.event_id}>
                         {/* Results Container */}
 
