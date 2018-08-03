@@ -54,12 +54,12 @@ class JudgeTable extends React.Component{
   componentDidMount(){
     var contestantsObjects = [];
     var judgeId = this.props.judgeId;
-    console.log(this.props.judgeId);
+
     var contestantContainer =document.getElementById("contestantContainer"+judgeId);
     firebase.database().ref("candidates").child(event_id).once('value',function(contestantSnapshot){
       contestantSnapshot.forEach(function(contestantChildSnapshot){
         contestantsObjects.push(contestantChildSnapshot.val());
-       console.log(contestantChildSnapshot.val());
+
       });
       var listItem  = contestantsObjects.map((objects)=>
         <Contestants contestantid ={objects.contestantid} key = {objects.contestantid} judgeId = {judgeId} contestantName = {objects.contestantname}/>
@@ -91,7 +91,13 @@ class Contestants extends React.Component{
     var judgeId = this.props.judgeId;
     var contestantid = this.props.contestantid;
     var criteriaObjects = [];
+    var totalResultsContainer = document.getElementById("totalResults"+contestantid+judgeId);
     var container = document.getElementById("rateContainer"+contestantid);
+    console.log("test: event"+event_id+"contestant"+contestantid+"judge"+judgeId);
+    firebase.database().ref("resultTotal").child("event"+event_id).child("contestant"+contestantid).child("judge"+judgeId).once('value', function(resultsSnapshot){
+      console.log(resultsSnapshot.val());
+      ReactDOM.render("Total Results"+resultsSnapshot.val().totalRating+" %",totalResultsContainer);
+    });
     firebase.database().ref("criteria").child(event_id).once('value', function(criteriaSnapshot){
       criteriaSnapshot.forEach(function(criteriaChildSnapshot){
         criteriaObjects.push(criteriaChildSnapshot.val());
@@ -117,6 +123,9 @@ class Contestants extends React.Component{
       <div className="col-3 mt-3">
         {this.props.contestantName}
         <div className="row" id = {"rateContainer"+this.props.contestantid}>
+
+        </div>
+        <div id = {"totalResults"+this.props.contestantid+this.props.judgeId} className ="row mt-3">
 
         </div>
       </div>

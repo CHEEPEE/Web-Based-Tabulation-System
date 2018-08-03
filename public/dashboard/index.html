@@ -69,8 +69,11 @@
           <button onclick="logout()" class="mr-3 btn btn-outline-light my-2 my-sm-0">Log out</button>
         </form>
       </nav>
-      <div id="accordion" class="container">
 
+      <div class="container">
+        <div id = "ultimateMainContainer">
+
+        </div>
       </div>
 
 
@@ -80,57 +83,11 @@
 
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.2/Chart.bundle.js"></script>
-<script>
-var ctx = document.getElementById("myChart").getContext('2d');
-var data = {
-    datasets: [{
-        data: [10, 20, 30],
-        backgroundColor: [
-                'rgba(255, 99, 132, 0.2)',
-                'rgba(54, 162, 235, 0.2)',
-                'rgba(255, 206, 86, 0.2)',
-                'rgba(75, 192, 192, 0.2)',
-                'rgba(153, 102, 255, 0.2)',
-                'rgba(255, 159, 64, 0.2)'
-            ],
-            borderColor: [
-                'rgba(255,99,132,1)',
-                'rgba(54, 162, 235, 1)',
-                'rgba(255, 206, 86, 1)',
-                'rgba(75, 192, 192, 1)',
-                'rgba(153, 102, 255, 1)',
-                'rgba(255, 159, 64, 1)'
-            ],
-            borderWidth: 1
-    }],
-
-    // These labels appear in the legend and in the tooltips when hovering different arcs
-    labels: [
-        'Red',
-        'Yellow',
-        'Blue'
-    ]
-};
-var myChart = new Chart(ctx, {
-    type: 'pie',
-    data: data
-
-});
-</script>
-<div id="candidateModals">
-
-</div>
-<div id="criteriaModals">
-
-</div>
-<div id="judgeModals">
-
-</div>
 
 
 
-<script type="text/babel" src="app.js">
-<script type="text/babel" src="announcements.js">
+<script type="text/babel" src="app.js"></script>
+<script type="text/babel" src="dashboard.js"></script>
 </script>
 
 <script src="https://www.gstatic.com/firebasejs/5.0.2/firebase.js"></script>
@@ -148,6 +105,7 @@ var myChart = new Chart(ctx, {
 </script>
 <script type="text/babel" src="index.js"></script>
 
+
 <script>
 function w3_open() {
   document.getElementById("main").style.marginLeft = "14.7%";
@@ -156,12 +114,7 @@ function w3_open() {
   document.getElementById("openNav").style.display = 'none';
   document.getElementById("closeNav").style.display = "inline-block";
 }
-function w3_close() {
-  document.getElementById("main").style.marginLeft = "0%";
-  document.getElementById("mySidebar").style.display = "none";
-  document.getElementById("openNav").style.display = "inline-block";
-  document.getElementById("closeNav").style.display = "none";
-}
+
 w3_open();
   feather.replace();
 

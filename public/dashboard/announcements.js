@@ -1,4 +1,4 @@
-var mainElement = document.getElementById('main');
+
 
 function Announcements(){
   class MainAnnouncement extends React.Component{

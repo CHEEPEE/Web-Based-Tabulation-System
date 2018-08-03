@@ -22,6 +22,7 @@
         // if (window.location.href != "http://localhost:5000/index.html" || window.location.href != "http://localhost:5000/index.html" ) {
         //     window.location.href = "index.html";
         // }
+
     }
     }else {
           console.log("login page");

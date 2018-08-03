@@ -1,6 +1,6 @@
 
 var sidenNaveElement = document.getElementById('side-nav');
-var mainElement = document.getElementById('accordion');
+var mainElement = document.getElementById('ultimateMainContainer');
 var nameElement = document.getElementById('username');
 var name = "Momoland Nancy";
 const contest = "Contest";
@@ -14,48 +14,27 @@ const refJudge = "judges";
 const refAnnouncements = "announcements";
 
 function renderTabulation() {
-  ReactDOM.render(<MainTabulation />, mainElement);
+
   ReactDOM.render(
     <div>
       <SideNav ficon="grid" cname="sideNav-menus-font nav-link" lname={dashboard} eventc={(e) => renderDashboard()} />
-      <SideNav ficon="layers" cname="sideNav-menus-font nav-link custom-active" lname={contest} eventc={(e) => renderTabulation()} />
+      <SideNav ficon="layers" cname="sideNav-menus-font nav-link custom-active" lname={contest} />
     </div>
     , sidenNaveElement);
+    ReactDOM.render(<MainTabulation />, mainElement);
 }
 
-function renderAnnouncements() {
-  ReactDOM.render(<MainAnnouncement />, mainElement);
-  ReactDOM.render(
-    <div>
-      <SideNav ficon="grid" cname="nav-link" lname={dashboard} eventc={(e) => renderDashboard()} />
-      <SideNav ficon="grid" cname="nav-link " lname={contest} eventc={(e) => renderTabulation()} />
-      <SideNav ficon="circle" cname="nav-link custom-active" lname={announcements} eventc={(e) => renderAnnouncements()} />
-    </div>
-    , sidenNaveElement);
-}
+// function renderAnnouncements() {
+//   ReactDOM.render(<MainAnnouncement />, mainElement);
+//   ReactDOM.render(
+//     <div>
+//       <SideNav ficon="grid" cname="nav-link" lname={dashboard} eventc={(e) => renderDashboard()} />
+//       <SideNav ficon="grid" cname="nav-link " lname={contest} eventc={(e) => renderTabulation()} />
+//       <SideNav ficon="circle" cname="nav-link custom-active" lname={announcements} eventc={(e) => renderAnnouncements()} />
+//     </div>
+//     , sidenNaveElement);
+// }
 
-function renderDashboard() {
-  ReactDOM.render(<MainDashboard />, mainElement);
-  ReactDOM.render(
-    <div>
-      <SideNav ficon="grid" cname="sideNav-menus-font nav-link custom-active" lname={dashboard} eventc={(e) => renderDashboard()} />
-      <SideNav ficon="layers" cname="sideNav-menus-font nav-link " lname={contest} eventc={(e) => renderTabulation()} />
-
-    </div>
-    , sidenNaveElement);
-}
-
-
-
-class MainDashboard extends React.Component {
-  render() {
-    return (
-      <div className="container">
-        Dashboard
-      </div>
-    );
-  }
-}
 
 function Nameclass() {
   return (
@@ -230,8 +209,6 @@ class Results extends React.Component {
       snapshot.forEach(function (childsnapshot) {
         candidateObjects = candidateObjects+childsnapshot.val().totalRating;
         candidateNumber++;
-        console.log(childsnapshot.val().totalRating);
-
       });
       if (candidateNumber!=0){
         ReactDOM.render(
@@ -455,7 +432,7 @@ class CriteriaOnModal extends React.Component {
     });
     $("#updateCriteriaModal" + this.props.criteriaKey).modal('hide');
     getCriteria(this.props.criteriaEventid);
-    getCriteria(this.props.criteriaEventid)
+    criteriaPieGraph(this.props.criteriaEventid);
   }
   render() {
     return (
@@ -559,6 +536,7 @@ class Criteria extends React.Component {
     });
     $("#updateCriteriaModal" + this.props.criteriaKey).modal('hide');
     getCriteria(this.props.criteriaEventid);
+    criteriaPieGraph(this.props.criteriaEventid);
   }
   render() {
     return (
@@ -703,7 +681,6 @@ class Getevents extends React.Component {
     $("#addContestantModal" + this.props.event_id).modal('hide');
     $("#contestant-name" + this.props.event_id).val("");
     $("#contestant-descriptions" + this.props.event_id).val("");
-
   }
   addJudge() {
     var judgeName = $("#judge-name" + this.props.event_id).val();
@@ -743,7 +720,7 @@ class Getevents extends React.Component {
   }
 
   printResults(){
-    var win = window.open('print_results.html?eventid='+this.props.event_id,"_blank");
+    var win = window.open('details.html?eventid='+this.props.event_id,"_blank");
     win.focus();
   }
 
@@ -1497,7 +1474,9 @@ function getMonthString(month) {
   }
 }
 function criteriaPieGraph(eventId) {
+
   const ctx = document.getElementById("myChart" + eventId).getContext('2d');
+  ctx.clearRect(0, 0, document.getElementById("myChart" + eventId).width, document.getElementById("myChart" + eventId).height);
   var criteriaPercent = [];
   var criteriaLabel = [];
   firebase.database().ref(refCriteria).child(eventId).once('value', function (snapshot) {
@@ -1524,17 +1503,13 @@ function criteriaPieGraph(eventId) {
       // These labels appear in the legend and in the tooltips when hovering different arcs
       labels: criteriaLabel
     };
-
-
     var myChart = new Chart(ctx, {
       type: 'pie',
       data: data
     });
-
-
   });
 }
-ReactDOM.render(<MainTabulation />, mainElement);
+
 ReactDOM.render(
   <div>
     <SideNav ficon="grid" cname="sideNav-menus-font nav-link " lname={dashboard} eventc={(e) => renderDashboard()} />
