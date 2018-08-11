@@ -74,13 +74,13 @@ class ResultsContestantList extends React.Component{
   }
   render() {
     return(
-      <div className = "row">
+      <div className = "row border-bottom m-2 rounded">
         <div className = "col">
           <h1 className = "text-dark text-capitalize font-weight-light">{this.props.contestantname}</h1>
         </div>
-        <div className = "col">
+        <div className = "col p-1">
           <div id ={"totalRating"+this.props.id}>
-            {this.props.rating}
+            <h3>{this.props.rating}%</h3>
           </div>
         </div>
       </div>

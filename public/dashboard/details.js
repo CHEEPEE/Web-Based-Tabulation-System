@@ -34,16 +34,20 @@ class MainContainer extends React.Component{
             <h1>{this.props.eventname}</h1>
           </div>
           <div className = "col">
-            <button type="button" onClick = {this.printpage.bind(this)}className="btn btn-outline-info m-1">Print Results</button>
+            <button type="button" onClick = {this.printpage.bind(this)}className="btn btn-outline-info m-1 d-print-none">Print Results</button>
           </div>
         </div>
         <div id = "contestantList" className = "row mt-5">
+
+        </div>
+        <div className = "row mar200Top" id = "judgeListSign">
 
         </div>
       </div>
     )
   }
 }
+
 
 function getCotestants(){
   var id = event_id;
@@ -85,14 +89,14 @@ function getCotestants(){
           console.log("sorted "+i+" "+resultsFinalObjects[i].rate);
         }
 
-        var listItem = resultsFinalObjects.map((objects)=>
-          <Contestant key = {objects.contestantId} id = {objects.contestantId} contestantname ={objects.contestantname} rating ={objects.rate}/>
+        var listItem = resultsFinalObjects.map((objects,index)=>
+          <Contestant key = {objects.contestantId} id = {objects.contestantId} index = {index+1} contestantname ={objects.contestantname} rating ={objects.rate}/>
         );
 
         ReactDOM.render(
-          <div className = "w-100">
+          <React.Fragment>
             {listItem}
-          </div>,container
+          </React.Fragment>,container
         )
     });
   });
@@ -113,8 +117,8 @@ class Judges extends React.Component{
   }
   render() {
     return(
-      <div className ="container mt-3">
-        <div className = "row">
+      <div className ="mt-3">
+        <div className = "row w-75">
           <div className = "col">
             <h3>{this.props.judgeName}</h3>
           </div>
@@ -135,17 +139,17 @@ class CriteriaRating extends React.Component{
     var container = document.getElementById("criterianame"+this.props.contestantid+this.props.judgeid+this.props.id);
     firebase.database().ref("criteria").child(event_id).child(this.props.id).once("value",function(dataSnapshot){
       ReactDOM.render(
-        dataSnapshot.val().criteriaName,container
+        <div className = "w-100">{dataSnapshot.val().criteriaName+" - ("+dataSnapshot.val().criteriaPercentage+"%)"}</div>,container
       );
     });
   }
   render() {
     return(
-      <div className ="row">
+      <div className ="row w-75">
         <div id = {"criterianame"+this.props.contestantid+this.props.judgeid+this.props.id} className ="col">
 
         </div>
-        <div className = "col">
+        <div className = "col text-truncate">
           {this.props.rating}
         </div>
       </div>
@@ -163,6 +167,14 @@ function getjudges(id){
    var listItem = judgesObjects.map((objects)=>
    <Judges key={objects.judgeId} contestantid = {id} judgeName = {objects.judgeName} id ={objects.judgeId}/>
   );
+  var listItemJudgeSign = judgesObjects.map((objects)=>
+  <JudgeItemSign key={objects.judgeId} contestantid = {id} judgeName = {objects.judgeName} id ={objects.judgeId}/>
+ );
+ ReactDOM.render(
+   <React.Fragment>
+     {listItemJudgeSign}
+   </React.Fragment>,document.getElementById("judgeListSign")
+ )
   ReactDOM.render(
     <div className = "container">
       {listItem}
@@ -204,13 +216,14 @@ class Contestant extends React.Component{
   }
   render() {
     return(
-      <div className = "mt-5">
+      <div className = "col-sm-4 mt-5">
         <div className = "row w-100">
-          <div className = "col">
-            <h1 className = "text-capitalize font-weight-light">{this.props.contestantname}</h1>
+          <div className = "col-sm-8">
+              <div className = "text-primary">{"Rank #"+this.props.index}</div>
+             <h1 className = "text-capitalize font-weight-light">{this.props.contestantname}</h1>
           </div>
-          <div className = "col">
-            <h1>{this.props.rating}</h1>
+          <div className = "col-sm-4">
+            <h1 className = "text-danger">{this.props.rating} %</h1>
           </div>
         </div>
         <div id = {"judgesContainer"+this.props.id} className = "row">
@@ -218,5 +231,18 @@ class Contestant extends React.Component{
         </div>
       </div>
     )
+  }
+}
+
+
+
+
+class JudgeItemSign extends React.Component{
+  render(){
+    return(
+      <div className = "col-sm-3 border-top border-dark m-3 text-center">
+        <h4>{this.props.judgeName}</h4>
+      </div>
+    );
   }
 }
