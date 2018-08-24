@@ -65,6 +65,7 @@ class MainTabulation extends React.Component {
           Add Event
             </button>
         <div id="eventscontainer" className="row w-100 mt-3">
+
         </div>
         <div className="modal fade" id="exampleModalCenter" tabIndex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
           <div className="modal-dialog modal-dialog-centered" role="document">
@@ -213,7 +214,7 @@ class Results extends React.Component {
       if (candidateNumber!=0){
         ReactDOM.render(
           <div>
-            {candidateObjects/candidateNumber}
+            {Math.round((candidateObjects/candidateNumber)*100)/100}
            </div>
            , resultContainer
          );
@@ -716,7 +717,8 @@ class Getevents extends React.Component {
   }
   updateEventName() {
     var update = $("#eventname" + this.props.event_id).val();
-    updateEventName(update, this.props.event_id);
+      var date = $("#eventDate" + this.props.event_id).val();
+    updateEventName(update, this.props.event_id,date);
   }
 
   printResults(){
@@ -787,7 +789,15 @@ class Getevents extends React.Component {
                         <div className="input-group-prepend">
                           <span className="input-group-text" id="basic-addon1">Event Name</span>
                         </div>
-                        <input id={"eventname" + this.props.event_id} type="text" className="form-control" defaultValue={this.props.event_name} placeholder="New name" aria-label="Username" aria-describedby="basic-addon1" />
+                        <input id={"eventname" + this.props.event_id} type="text" className="form-control" defaultValue={this.props.event_name} placeholder="Event name" aria-label="Username" aria-describedby="basic-addon1" />
+                      </div>
+                    </div>
+                    <div className="col-sm-12">
+                      <div className="input-group mb-3">
+                        <div className="input-group-prepend">
+                          <span className="input-group-text" id="basic-addon1">Event Date</span>
+                        </div>
+                        <input id={"eventDate" + this.props.event_id} type="text" className="form-control" defaultValue={this.props.event_date} placeholder="Event Date" aria-label="Username" aria-describedby="basic-addon1" />
                       </div>
                     </div>
                   </div>
@@ -1224,9 +1234,10 @@ function deleteEvent(event_id) {
   return firebase.database().ref("events/" + event_id).remove();
 }
 
-function updateEventName(name, key_id) {
+function updateEventName(name, key_id,date) {
 
-  firebase.database().ref('events/' + key_id).update({ eventname: name });
+  firebase.database().ref('events/' + key_id).update({ eventname: name,
+  date:date });
   getEvents();
   var eventnameid = "#editeventname" + key_id;
   $(eventnameid).modal('hide');

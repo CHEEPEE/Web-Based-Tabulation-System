@@ -153,7 +153,7 @@ function getCotestants(id){
         }
 
         var listItem = resultsFinalObjects.map((objects)=>
-          <ResultsContestantList key = {objects.contestantId} id = {objects.contestantId} contestantname ={objects.contestantname} rating ={objects.rate}/>
+          <ResultsContestantList key = {objects.contestantId} id = {objects.contestantId} contestantname ={objects.contestantname} rating ={Math.round(objects.rate*100)/100}/>
         );
 
         ReactDOM.render(

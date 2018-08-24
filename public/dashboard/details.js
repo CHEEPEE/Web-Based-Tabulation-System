@@ -90,7 +90,7 @@ function getCotestants(){
         }
 
         var listItem = resultsFinalObjects.map((objects,index)=>
-          <Contestant key = {objects.contestantId} id = {objects.contestantId} index = {index+1} contestantname ={objects.contestantname} rating ={objects.rate}/>
+          <Contestant key = {objects.contestantId} id = {objects.contestantId} index = {index+1} contestantname ={objects.contestantname} rating ={Math.round(objects.rate * 100)/100}/>
         );
 
         ReactDOM.render(
@@ -204,7 +204,7 @@ function getRatings(contestantid,judgeid){
 
   firebase.database().ref("resultTotal").child("event"+event_id).child("contestant"+contestantid).child("judge"+judgeid).once("value",function(dataSnapshot){
     ReactDOM.render(
-      <h3 className = "text-success">{dataSnapshot.val().totalRating}</h3>,totalRatingContainer
+      <h3 className = "text-success">{Math.round(dataSnapshot.val().totalRating*100)/100}</h3>,totalRatingContainer
     );
   });
 
