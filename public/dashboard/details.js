@@ -119,13 +119,21 @@ class Judges extends React.Component{
     return(
       <div className ="mt-3">
         <div className = "row w-75">
-          <div className = "col">
+          <div className = "col text-success">
+            <small className = "text-muted">Judge Name</small>
             <h3>{this.props.judgeName}</h3>
           </div>
-          <div id = {"judgeRating"+this.props.contestantid+this.props.id} className = "col">
+          <div className  = "col">
+          <div className = "row mt-2">
+           <small  className = "text-muted">Judge Rating</small>
+          </div>
+          <div id = {"judgeRating"+this.props.contestantid+this.props.id} className = "row">
 
           </div>
+          </div>
+          
         </div>
+        <small  className = "text-info">Criteria</small>
         <div id = {"criteriaRatings"+this.props.contestantid+this.props.id} className = "row">
 
         </div>
@@ -216,13 +224,14 @@ class Contestant extends React.Component{
   }
   render() {
     return(
-      <div className = "col-sm-4 mt-5">
+      <div className = "col-sm-6 mt-5">
         <div className = "row w-100">
-          <div className = "col-sm-8">
-              <div className = "text-primary">{"Rank #"+this.props.index}</div>
-             <h1 className = "text-capitalize font-weight-light">{this.props.contestantname}</h1>
+          <div className = "col-sm-6">
+              <div className = "text-danger">{"Rank #"+this.props.index}</div>
+             <h1 className = "text-capitalize font-weight-light text-danger">{this.props.contestantname}</h1>
           </div>
-          <div className = "col-sm-4">
+          <div className = "col-sm-4 mt-2">
+          <div className = "text-danger">Final Rating</div>
             <h1 className = "text-danger">{this.props.rating} %</h1>
           </div>
         </div>
