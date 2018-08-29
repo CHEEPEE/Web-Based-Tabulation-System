@@ -228,7 +228,7 @@ class Contestant extends React.Component{
         <div className = "row w-100">
           <div className = "col-sm-6">
               <div className = "text-danger">{"Rank #"+this.props.index}</div>
-             <h1 className = "text-capitalize font-weight-light text-danger">{this.props.contestantname}</h1>
+             <h2 className = "text-capitalize font-weight-light text-danger">{this.props.contestantname}</h2>
           </div>
           <div className = "col-sm-4 mt-2">
           <div className = "text-danger">Final Rating</div>

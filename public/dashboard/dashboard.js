@@ -44,8 +44,7 @@ componentDidMount(){
 
       <div className="card mt-5 border-0">
       <div className="card-header border-0" id="headingOne">
-        <h5 className="mb-0">
-          <button className="btn btn-link" data-toggle="collapse" data-target={"#collapseOne"+this.props.id} aria-expanded="true" aria-controls="collapseOne">
+          <div className="btn-link w-100" data-toggle="collapse" data-target={"#collapseOne"+this.props.id} aria-expanded="true" aria-controls="collapseOne">
             <div className = "row">
               <div className = "col">
                 <h2 className = "text-primary">{this.props.eventname}</h2>
@@ -55,8 +54,7 @@ componentDidMount(){
               </div>
             </div>
 
-          </button>
-        </h5>
+          </div>
       </div>
       <div id={"collapseOne"+this.props.id} className="collapse border-0" aria-labelledby="headingOne" data-parent="#accordion">
        <div className="card-body border-0 bg-light" id = {"contestBody"+this.props.id}>
