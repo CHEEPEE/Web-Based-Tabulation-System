@@ -145,7 +145,7 @@ class MainContainer extends React.Component {
         <div className="row mar200Top" id="judgeListSign" />
         <div className="row">
           <div className="col-sm-3 ml-3 mr-3  text-center">
-            <div className="form-group">
+            <div className="form-group input-group-lg">
               <input
                 className="form-control text-dark text-uppercase font-weight-bold bg-transparent border-0 text-center"
                 placeholder="Enter Name"
@@ -153,7 +153,7 @@ class MainContainer extends React.Component {
             </div>
           </div>
           <div className="col-sm-3  ml-3 mr-3 text-center" >
-          <div className="form-group">
+          <div className="form-group input-group-lg">
               <input
                 className="form-control text-dark text-uppercase font-weight-bold bg-transparent border-0 text-center"
                
@@ -164,7 +164,7 @@ class MainContainer extends React.Component {
         </div>
 
         <div className="row">
-          <div className="col-sm-3 border-top border-dark ml-3 mr-3">
+          <div className="col-sm-3  border-top border-dark ml-3 mr-3">
           <p className="text-center">Printed Name & Signature<br/>Tabulation Committee Chairperson</p>
            
           </div>

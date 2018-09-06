@@ -23,7 +23,7 @@
         //     window.location.href = "index.html";
         // }
 
-    }
+    }yield
     }else {
           console.log("login page");
           // No user is signed in.
