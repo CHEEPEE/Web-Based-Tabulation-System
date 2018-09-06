@@ -143,7 +143,7 @@ class MainContainer extends React.Component {
         <div id="contestantList" className="row mt-5" />
         
         <div className="row mar200Top" id="judgeListSign" />
-        <div className="row">
+        <div className="row d-flex justify-content-center">
           <div className="col-sm-3 ml-3 mr-3  text-center">
             <div className="form-group input-group-lg">
               <input
@@ -163,7 +163,7 @@ class MainContainer extends React.Component {
           </div>
         </div>
 
-        <div className="row">
+        <div className="row d-flex justify-content-center">
           <div className="col-sm-3  border-top border-dark ml-3 mr-3">
           <p className="text-center">Printed Name & Signature<br/>Tabulation Committee Chairperson</p>
            
@@ -483,7 +483,7 @@ class FilterByJudgeContainer extends React.Component {
           <h1>{this.state.judgeName}</h1>
         </div>
         <div className="row mb-5" id="contestantList" />
-        <div className="row mt-5">
+        <div className="row d-flex justify-content-center mt-5">
           <div className="col-sm-3 mt-5 border-top border-dark m-3 text-center">
             <h4>{this.state.judgeName}</h4>
           </div>
