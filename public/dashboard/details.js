@@ -138,9 +138,6 @@ class MainContainer extends React.Component {
             <div className  = "row">
             <h1>{this.props.eventname}</h1>
             </div>
-            <div className = "row text-info">
-              {this.props.date}
-            </div>
           </div>
         </div>
         <div id="contestantList" className="row mt-5" />
@@ -151,7 +148,7 @@ class MainContainer extends React.Component {
             <div className="form-group">
               <input
                 className="form-control text-dark text-uppercase font-weight-bold bg-transparent border-0 text-center"
-                placeholder="Time"
+                placeholder="Enter Name"
               />
             </div>
           </div>
@@ -164,28 +161,16 @@ class MainContainer extends React.Component {
               />
             </div>
           </div>
-          <div className="col-sm-3  ml-3 mr-3 text-center" >
-          <div className="form-group">
-              <input
-                className="form-control text-dark text-uppercase font-weight-bold bg-transparent border-0 text-center"
-                placeholder="Enter Name"
-              />
-            </div>
-          </div>
         </div>
 
         <div className="row">
-          <div className="col-sm-3 border-top border-dark ml-3 mr-3 text-center">
-            <div className="row">Printed Name & Signature</div>
-            <div className="row">Tabulation Committee</div>
+          <div className="col-sm-3 border-top border-dark ml-3 mr-3">
+          <p className="text-center">Printed Name & Signature<br/>Tabulation Committee Chairperson</p>
+           
           </div>
-          <div className="col-sm-3 border-top border-dark ml-3 mr-3 text-center">
-            <div className="row">Printed Name & Signature</div>
-            <div className="row">Chairperson</div>
-          </div>
-          <div className="col-sm-3 border-top border-dark ml-3 mr-3 text-center">
-            <div className="row">Printed Name & Signature</div>
-            <div className="row">Noted by: Student Affairs Officer</div>
+          <div className="col-sm-3  border-top border-dark ml-3 mr-3">
+            <p className="text-center">Printed Name & Signature<br/>Student Affairs Officer</p>
+           
           </div>
         </div>
       </div>
