@@ -82,7 +82,7 @@ class PrintingOptions extends React.Component {
     return (
       <div className="col">
         <div className="row ml-2">
-          <small>Printing Optios</small>
+          <small>Printing Options</small>
         </div>
         <div className="row mt-1 w-50">
           <div className="col">
@@ -133,6 +133,9 @@ class MainContainer extends React.Component {
   render() {
     return (
       <div className="w-100">
+      <div  className = "row d-flex justify-content-center">
+      <h1>SUMMARY SHEET</h1>
+      </div>
         <div className="row mt-5">
           <div className="col">
             <div className  = "row">
@@ -414,6 +417,17 @@ function getRatings(contestantid, judgeid) {
 }
 
 class Contestant extends React.Component {
+  state = {
+    show:"d-none",
+    buttonShow:"visible"
+  }
+  show(){
+    this.setState({
+      show:this.state.show == "d-none"?"visible":"d-none",
+      buttonShow:this.state.buttonShow == "d-none"?"visible":"d-none",
+
+    })
+  }
   componentDidMount() {
     getjudges(this.props.id);
   }
@@ -423,16 +437,17 @@ class Contestant extends React.Component {
         <div className="row w-100">
           <div className="col-sm-6">
             <div className="text-danger">{"Rank #" + this.props.index}</div>
-            <h2 className="text-capitalize font-weight-light text-danger">
+            <button type="button" className={"btn btn-warning mt-2 "+this.state.buttonShow} onClick = {this.show.bind(this)}>Show Result</button>
+            <h2 className={"text-capitalize font-weight-light text-danger "+this.state.show}>
               {this.props.contestantname}
             </h2>
           </div>
           <div className="col-sm-4 mt-2">
             <div className="text-danger">Final Rating</div>
-            <h1 className="text-danger">{this.props.rating} %</h1>
+            <h1 className="text-danger" onClick = {this.show.bind(this)}>{this.props.rating} %</h1>
           </div>
         </div>
-        <div id={"judgesContainer" + this.props.id} className="row" />
+        <div id={"judgesContainer" + this.props.id} className={"row "+this.state.show} />
       </div>
     );
   }
@@ -479,6 +494,9 @@ class FilterByJudgeContainer extends React.Component {
   render() {
     return (
       <div className="container-fluid">
+        <div className = "row d-flex justify-content-center">
+          <h1>JUDGING SHEET</h1>
+        </div>
         <div className="row" id="judgeName">
           <h1>{this.state.judgeName}</h1>
         </div>
