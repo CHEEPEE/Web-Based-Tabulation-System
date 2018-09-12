@@ -378,14 +378,10 @@ class Judge extends React.Component {
                 <div className='row m-3'>
                   <div className="input-group mb-3">
                     <input type="text" id={"access-code-field" + this.props.judgeId} className="form-control" defaultValue={this.props.judgeId} placeholder="Recipient's username" aria-label="Recipient's username" aria-describedby="basic-addon2" />
-                    <div className="input-group-append">
-                      <span className="input-group-text" onClick={this.copyAccessCode.bind(this)} id="basic-addon2">Copy Access Code</span>
-                    </div>
                   </div>
                 </div>
                 <div className="row pl-2 pr-2">
                   {/* qr code fetcher api */}
-
                   <div className="col-8">
                     <a href={"https://api.qrserver.com/v1/create-qr-code/?data=" + this.props.judgeId + "&amp;size=200x200"} download="thefile">
                       <img src={"https://api.qrserver.com/v1/create-qr-code/?data=" + this.props.judgeId + "&amp;size=200x200"} alt="dff" title="sdsdfsf" />
@@ -670,24 +666,35 @@ class Getevents extends React.Component {
   addContestant() {
     var contestantName = $("#contestant-name" + this.props.event_id).val();
     var contestantDescription = $("#contestant-description" + this.props.event_id).val();
+
     var candidatekey = firebase.database().ref().child(refCandidates).child(this.props.event_id).push().key;
 
-    firebase.database().ref().child(refCandidates).child(this.props.event_id).child(candidatekey).set({
-      contestantname: contestantName,
-      contestantDescription: contestantDescription,
-      eventid: this.props.event_id,
-      contestantid: candidatekey
-    });
-    getCandidates(this.props.event_id);
-    $("#addContestantModal" + this.props.event_id).modal('hide');
-    $("#contestant-name" + this.props.event_id).val("");
-    $("#contestant-descriptions" + this.props.event_id).val("");
+    if(contestantName.split(' ').join('') =="" || contestantDescription.split(' ').join('') == ""){
+      alert("Fields are required to be filled up");
+    }
+    else{
+      firebase.database().ref().child(refCandidates).child(this.props.event_id).child(candidatekey).set({
+        contestantname: contestantName,
+        contestantDescription: contestantDescription,
+        eventid: this.props.event_id,
+        contestantid: candidatekey
+      });
+      getCandidates(this.props.event_id);
+      $("#addContestantModal" + this.props.event_id).modal('hide');
+      $("#contestant-name" + this.props.event_id).val("");
+      $("#contestant-descriptions" + this.props.event_id).val("");
+    }
+
+ 
   }
   addJudge() {
     var judgeName = $("#judge-name" + this.props.event_id).val();
     var judgeDescription = $("#judge-description" + this.props.event_id).val();
     var judgeKey = firebase.database().ref().child(refJudge).child(this.props.event_id).push().key;
 
+    if(judgeName.split(" ").join('')=="" ||judgeDescription.split(" ").join('')=="" ){
+      alert("Fields are required to be filled up");
+    }else{      
     firebase.database().ref().child(refJudge).child(this.props.event_id).child(judgeKey).set({
       judgeName: judgeName,
       judgeDescription: judgeDescription,
@@ -704,6 +711,8 @@ class Getevents extends React.Component {
     $("#addJudgeModal" + this.props.event_id).modal('hide');
     $("#judge-name" + this.props.event_id).val("");
     $("#judge-description" + this.props.event_id).val("");
+
+    }
 
   }
   componentDidMount() {
@@ -1062,14 +1071,21 @@ function writeEventName() {
   var eventname = document.getElementById('eventname').value;
   var currentDate = getCurrentDate();
   var eventpostkey = firebase.database().ref().child('event').push().key;
-  firebase.database().ref('events/' + eventpostkey).set({
-    eventname: eventname,
-    date: currentDate,
-    key: eventpostkey
-  });
+
+  if(eventname.split(" ").join("") == ""){
+    alert("Field must be filled up");
+  }else{
+    firebase.database().ref('events/' + eventpostkey).set({
+      eventname: eventname,
+      date: currentDate,
+      key: eventpostkey
+    });
+    $('#exampleModalCenter').modal('hide');
+    $("#eventname").val("");
+  }
+  
   getEvents();
-  $('#exampleModalCenter').modal('hide');
-  $("#eventname").val("");
+ 
 }
 
 function getResults(key) {

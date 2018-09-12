@@ -117,7 +117,6 @@ class OptionItem extends React.Component {
   }
 }
 
-ReactDOM.render(<PrintingOptions />, printingOptions);
 
 class MainContainer extends React.Component {
   componentDidMount() {
@@ -134,7 +133,7 @@ class MainContainer extends React.Component {
     return (
       <div className="w-100">
       <div  className = "row d-flex justify-content-center">
-      <h1>SUMMARY SHEET</h1>
+      <h1>RESULTS</h1>
       </div>
         <div className="row mt-5">
           <div className="col">
@@ -269,7 +268,7 @@ class Judges extends React.Component {
         <div className="row w-75">
           <div className="col text-success">
             <small className="text-muted">Judge Name</small>
-            <h3>{this.props.judgeName}</h3>
+            <h3>Judge</h3>
           </div>
           <div className="col">
             <div className="row mt-2">
@@ -418,15 +417,16 @@ function getRatings(contestantid, judgeid) {
 
 class Contestant extends React.Component {
   state = {
-    
+    show:"d-none",
+    buttonShow:"visible"
   }
-  // show(){
-  //   this.setState({
-  //     show:this.state.show == "d-none"?"visible":"d-none",
-  //     buttonShow:this.state.buttonShow == "d-none"?"visible":"d-none",
+  show(){
+    this.setState({
+      show:this.state.show == "d-none"?"visible":"d-none",
+      buttonShow:this.state.buttonShow == "d-none"?"visible":"d-none",
 
-  //   })
-  // }
+    })
+  }
   componentDidMount() {
     getjudges(this.props.id);
   }
@@ -436,14 +436,14 @@ class Contestant extends React.Component {
         <div className="row w-100">
           <div className="col-sm-6">
             <div className="text-danger">{"Rank #" + this.props.index}</div>
-            {/* <button type="button" className={"btn btn-warning mt-2 "+this.state.buttonShow} onClick = {this.show.bind(this)}>Show Result</button> */}
+            <button type="button" className={"btn btn-warning mt-2 "+this.state.buttonShow} onClick = {this.show.bind(this)}>Show Result</button>
             <h2 className={"text-capitalize font-weight-light text-danger "+this.state.show}>
               {this.props.contestantname}
             </h2>
           </div>
           <div className="col-sm-4 mt-2">
             <div className="text-danger">Final Rating</div>
-            <h1 className="text-danger">{this.props.rating} %</h1>
+            <h1 className="text-danger" >{this.props.rating} %</h1>
           </div>
         </div>
         <div id={"judgesContainer" + this.props.id} className={"row "+this.state.show} />
