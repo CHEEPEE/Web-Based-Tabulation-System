@@ -114,7 +114,7 @@ class ResultsContestantList extends React.Component {
         </div>
         <div className="col p-1">
           <div id={"totalRating" + this.props.id}>
-            <h3>{this.props.rating}%</h3>
+            <h3>{isNaN(this.props.rating)?"No Rating":this.props.rating+"%"}</h3>
           </div>
         </div>
       </div>
